@@ -1,6 +1,9 @@
 package fr.opensagres.xdocreport.admin.eclipse.ui.views;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -20,6 +23,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import fr.opensagres.xdocreport.admin.domain.Repository;
+import fr.opensagres.xdocreport.admin.eclipse.ui.Activator;
 import fr.opensagres.xdocreport.admin.eclipse.ui.dialogs.AddRepositoryDialog;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditorInput;
@@ -76,9 +80,11 @@ public class RepositoryExplorer extends ViewPart implements
 							(Repository) parentElement).getRoot();
 					return resource.getChildren().toArray(new Resource[0]);
 				} catch (Throwable e) {
-					e.printStackTrace();
-					// return ((IReportModule)
-					// parentElement).getEntries().toArray();
+					Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0,
+							"Repository connection", e);
+					ErrorDialog.openError(viewer.getControl().getShell(),
+							"RepositoryService Error", e.getMessage(), status);
+					return null;
 				}
 			}
 			if (parentElement instanceof Resource) {
@@ -197,8 +203,10 @@ public class RepositoryExplorer extends ViewPart implements
 							RepositoryEditor.ID, true);
 				}
 			} catch (PartInitException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0,
+						"Repository connection", e);
+				ErrorDialog.openError(viewer.getControl().getShell(),
+						"UserService Error", e.getMessage(), status);
 
 			}
 		}

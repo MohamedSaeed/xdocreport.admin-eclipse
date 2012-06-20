@@ -1,5 +1,6 @@
 package fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources;
 
+import org.eclipse.rap.singlesourcing.SingleSourcingUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -95,7 +96,7 @@ public class OverviewPage extends FormPage {
 		resourceNameGridData.widthHint = 150;
 		resourceNameText.setLayoutData(resourceNameGridData);
 
-		// SingleSourcingUtils.FormToolkit_paintBordersFor(toolkit, sbody);
+		SingleSourcingUtils.FormToolkit_paintBordersFor(toolkit, sbody);
 	}
 
 	@Override

@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-SymbolicName: org.eclipse.rap.singlesourcing
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui;resolution:=optional,
+ org.eclipse.rap.ui;resolution:=optional
+Export-Package: org.eclipse.rap.singlesourcing
+Import-Package: org.eclipse.ui.forms.widgets
