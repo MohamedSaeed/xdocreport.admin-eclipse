@@ -1,17 +1,17 @@
-package fr.opensagres.xdocreport.admin.eclipse.ui.editors;
+package fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
-import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
+import fr.opensagres.xdocreport.admin.domain.Repository;
 
-public class ResourceEditorInput  implements IEditorInput {
+public class RepositoryEditorInput  implements IEditorInput {
 
-	private final Resource resource;
+	private final Repository repository;
 	
-	public ResourceEditorInput(Resource resource) {
-		this.resource = resource;
+	public RepositoryEditorInput(Repository repository) {
+		this.repository = repository;
 	}
 	
 	public Object getAdapter(Class adapter) {
@@ -30,7 +30,7 @@ public class ResourceEditorInput  implements IEditorInput {
 	}
 
 	public String getName() {
-		return resource.getName();
+		return repository.getBaseAddress();
 	}
 
 	public IPersistableElement getPersistable() {
@@ -42,7 +42,7 @@ public class ResourceEditorInput  implements IEditorInput {
 		return getName();
 	}
 
-	public Resource getResource() {
-		return resource;
+	public Repository getRepository() {
+		return repository;
 	}
 }

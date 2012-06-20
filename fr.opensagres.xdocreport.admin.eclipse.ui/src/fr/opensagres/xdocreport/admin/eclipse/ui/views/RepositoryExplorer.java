@@ -1,4 +1,4 @@
-package fr.opensagres.xdocreport.admin.eclipse.ui;
+package fr.opensagres.xdocreport.admin.eclipse.ui.views;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -21,16 +21,20 @@ import org.eclipse.ui.part.ViewPart;
 
 import fr.opensagres.xdocreport.admin.domain.Repository;
 import fr.opensagres.xdocreport.admin.eclipse.ui.dialogs.AddRepositoryDialog;
-import fr.opensagres.xdocreport.admin.eclipse.ui.editors.FileResourceEditor;
-import fr.opensagres.xdocreport.admin.eclipse.ui.editors.FolderResourceEditor;
-import fr.opensagres.xdocreport.admin.eclipse.ui.editors.ResourceEditorInput;
+import fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditor;
+import fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditorInput;
+import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FileResourceEditor;
+import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FolderResourceEditor;
+import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.ResourceEditorInput;
 import fr.opensagres.xdocreport.admin.eclipse.ui.internal.ImageResources;
 import fr.opensagres.xdocreport.admin.services.RepositoryService;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
 import fr.opensagres.xdocreport.remoting.resources.domain.ResourceType;
 
-public class View extends ViewPart implements IDoubleClickListener {
-	public static final String ID = "fr.opensagres.xdocreport.admin.eclipse.ui.view";
+public class RepositoryExplorer extends ViewPart implements
+		IDoubleClickListener {
+
+	public static final String ID = "fr.opensagres.xdocreport.admin.eclipse.ui.views.RepositoryExplorer";
 
 	private RepositoryService repositoryService;
 
@@ -174,22 +178,28 @@ public class View extends ViewPart implements IDoubleClickListener {
 		if (selection != null && selection instanceof IStructuredSelection) {
 			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 			Object element = structuredSelection.getFirstElement();
-			if (element instanceof Resource) {
-				try {
+			try {
+				if (element instanceof Resource) {
 					Resource resource = (Resource) element;
 					if (ResourceType.FILE.equals(resource.getType())) {
 						getSite().getPage().openEditor(
-								new ResourceEditorInput((Resource) element),
+								new ResourceEditorInput(resource),
 								FileResourceEditor.ID, true);
 					} else {
 						getSite().getPage().openEditor(
-								new ResourceEditorInput((Resource) element),
-								FolderResourceEditor.ID, true);
+								new ResourceEditorInput(resource),
+								FolderResourceEditor.ID, false);
 					}
-				} catch (PartInitException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} else if (element instanceof Repository) {
+					Repository repository = (Repository) element;
+					getSite().getPage().openEditor(
+							new RepositoryEditorInput(repository),
+							RepositoryEditor.ID, true);
 				}
+			} catch (PartInitException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
 			}
 		}
 	}

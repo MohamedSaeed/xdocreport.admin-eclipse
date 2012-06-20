@@ -1,4 +1,4 @@
-package fr.opensagres.xdocreport.admin.eclipse.ui.editors;
+package fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -13,15 +13,21 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
 import fr.opensagres.xdocreport.admin.eclipse.ui.FormLayoutFactory;
+import fr.opensagres.xdocreport.admin.eclipse.ui.internal.Messages;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
+import fr.opensagres.xdocreport.remoting.resources.domain.ResourceType;
 
 public class OverviewPage extends FormPage {
 
+	private static final String ID = "overview";
+
+	private final ResourceType resourceType;
 	private Text resourceIdText;
 	private Text resourceNameText;
 
-	public OverviewPage(FormEditor editor) {
-		super(editor, "overview", "Overview");
+	public OverviewPage(FormEditor editor, ResourceType resourceType) {
+		super(editor, ID, Messages.ResourceEditor_OverviewPage_title);
+		this.resourceType = resourceType;
 	}
 
 	@Override
@@ -55,8 +61,9 @@ public class OverviewPage extends FormPage {
 	private void createGeneralInfoSection(FormToolkit toolkit, Composite left) {
 		Section section = toolkit.createSection(left, Section.DESCRIPTION
 				| Section.TITLE_BAR);
-		section.setDescription("");
-		section.setText("General Information");
+		section.setDescription(isFile() ? Messages.FileResourceEditor_OverviewPage_GeneralInfo_desc
+				: Messages.FolderResourceEditor_OverviewPage_GeneralInfo_desc);
+		section.setText(Messages.ResourceEditor_OverviewPage_GeneralInfo_title);
 		TableWrapData data = new TableWrapData(TableWrapData.FILL_GRAB);
 		section.setLayoutData(data);
 
@@ -71,7 +78,9 @@ public class OverviewPage extends FormPage {
 		Resource resource = getResource();
 
 		// ID
-		toolkit.createLabel(sbody, "ID:");
+		toolkit.createLabel(
+				sbody,
+				Messages.ResourceEditor_OverviewPage_GeneralInfo_resourceId_label);
 		resourceIdText = toolkit
 				.createText(sbody, resource.getId(), SWT.SINGLE);
 		GridData resourceIdGridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -79,9 +88,9 @@ public class OverviewPage extends FormPage {
 		resourceIdText.setLayoutData(resourceIdGridData);
 
 		// Name
-		toolkit.createLabel(sbody, "Name:");
-		resourceNameText = toolkit
-				.createText(sbody, resource.getName(), SWT.SINGLE);
+		toolkit.createLabel(sbody, Messages.ResourceEditor_OverviewPage_GeneralInfo_resourceName_label);
+		resourceNameText = toolkit.createText(sbody, resource.getName(),
+				SWT.SINGLE);
 		GridData resourceNameGridData = new GridData(GridData.FILL_HORIZONTAL);
 		resourceNameGridData.widthHint = 150;
 		resourceNameText.setLayoutData(resourceNameGridData);
@@ -91,7 +100,6 @@ public class OverviewPage extends FormPage {
 
 	@Override
 	public ResourceEditorInput getEditorInput() {
-		// TODO Auto-generated method stub
 		return (ResourceEditorInput) super.getEditorInput();
 	}
 
@@ -99,4 +107,7 @@ public class OverviewPage extends FormPage {
 		return getEditorInput().getResource();
 	}
 
+	private boolean isFile() {
+		return ResourceType.FILE.equals(resourceType);
+	}
 }
