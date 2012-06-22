@@ -7,6 +7,6 @@ public class FolderResourceEditor extends ResourceEditor {
 	public static final String ID = "fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FolderResourceEditor";
 	
 	public FolderResourceEditor() {
-		super(ResourceType.FOLDER);
+		super(ResourceType.CATEGORY);
 	}
 }

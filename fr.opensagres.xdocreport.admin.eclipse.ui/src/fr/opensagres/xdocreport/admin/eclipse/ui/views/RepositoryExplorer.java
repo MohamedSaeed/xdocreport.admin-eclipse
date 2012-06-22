@@ -108,7 +108,7 @@ public class RepositoryExplorer extends ViewPart implements
 				return true;
 			}
 			if (element instanceof Resource) {
-				return !ResourceType.FILE
+				return !ResourceType.DOCUMENT
 						.equals(((Resource) element).getType());
 			}
 			return false;
@@ -136,7 +136,7 @@ public class RepositoryExplorer extends ViewPart implements
 			if (obj instanceof Resource) {
 				Resource resource = (Resource) obj;
 				switch (resource.getType()) {
-				case FILE:
+				case DOCUMENT:
 					return ImageResources.getImage(ImageResources.IMG_FILE_16);
 				case TEMPLATE:
 					return ImageResources
@@ -188,12 +188,12 @@ public class RepositoryExplorer extends ViewPart implements
 			if (element instanceof Resource) {
 				Resource resource = (Resource) element;
 				switch (resource.getType()) {
-				case FILE:
+				case DOCUMENT:
 					getSite().getPage().openEditor(
 							new ResourceEditorInput(resource),
 							FileResourceEditor.ID, true);
 					break;
-				case FOLDER:
+				case CATEGORY:
 					getSite().getPage().openEditor(
 							new ResourceEditorInput(resource),
 							FolderResourceEditor.ID, false);

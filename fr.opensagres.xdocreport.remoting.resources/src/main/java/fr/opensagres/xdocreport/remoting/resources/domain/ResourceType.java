@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum ResourceType {
 
-    FOLDER,
-    FILE,
+    CATEGORY,
+    DOCUMENT,
     TEMPLATE;
 
     public String value() {

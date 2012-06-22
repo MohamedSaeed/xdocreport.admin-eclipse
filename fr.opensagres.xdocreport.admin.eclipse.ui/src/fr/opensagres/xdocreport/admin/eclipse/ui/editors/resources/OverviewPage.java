@@ -100,7 +100,7 @@ public class OverviewPage extends FormPage {
 
 	private String getDescription() {
 		switch(resourceType) {
-		case FILE:
+		case DOCUMENT:
 			return Messages.FileResourceEditor_OverviewPage_GeneralInfo_desc;
 		case TEMPLATE:
 			return Messages.TemplateResourceEditor_OverviewPage_GeneralInfo_desc;
@@ -118,6 +118,6 @@ public class OverviewPage extends FormPage {
 	}
 
 	private boolean isFile() {
-		return ResourceType.FILE.equals(resourceType);
+		return ResourceType.DOCUMENT.equals(resourceType);
 	}
 }
