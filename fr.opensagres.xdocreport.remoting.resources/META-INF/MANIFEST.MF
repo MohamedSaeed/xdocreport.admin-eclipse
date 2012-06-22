@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Export-Package: fr.opensagres.xdocreport.remoting.resources.domain,
  fr.opensagres.xdocreport.remoting.resources.services,
- fr.opensagres.xdocreport.remoting.resources.services.rest,
- fr.opensagres.xdocreport.remoting.resources.services.ws
+ fr.opensagres.xdocreport.remoting.resources.services.jaxrs,
+ fr.opensagres.xdocreport.remoting.resources.services.jaxws
 Built-By: azerr
 Tool: Bnd-1.15.0
 Bundle-Name: fr.opensagres.xdocreport.remoting.resources

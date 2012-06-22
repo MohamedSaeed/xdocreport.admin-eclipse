@@ -6,5 +6,5 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: fr.opensagres.xdocreport.admin.eclipse.core
 Import-Package: fr.opensagres.xdocreport.remoting.resources.services,
- fr.opensagres.xdocreport.remoting.resources.services.rest.client,
- fr.opensagres.xdocreport.remoting.resources.services.ws.client
+ fr.opensagres.xdocreport.remoting.resources.services.client.jaxrs,
+ fr.opensagres.xdocreport.remoting.resources.services.client.jaxws

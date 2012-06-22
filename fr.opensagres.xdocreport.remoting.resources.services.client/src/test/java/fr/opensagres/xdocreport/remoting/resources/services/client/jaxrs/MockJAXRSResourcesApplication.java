@@ -22,52 +22,18 @@
  * OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package fr.opensagres.xdocreport.remoting.resources.services;
+package fr.opensagres.xdocreport.remoting.resources.services.client.jaxrs;
 
-import java.util.List;
+import fr.opensagres.xdocreport.remoting.resources.services.MockResourcesService;
+import fr.opensagres.xdocreport.remoting.resources.services.server.jaxrs.JAXRSResourcesApplication;
 
-import fr.opensagres.xdocreport.remoting.resources.domain.BinaryData;
-import fr.opensagres.xdocreport.remoting.resources.domain.Filter;
-import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
-
-/**
- * Interface to define resources services to retrieves from a repository list of resources (folder/files), and
- * upload/download some resources.
- */
-public interface ResourcesService
+public class MockJAXRSResourcesApplication
+    extends JAXRSResourcesApplication
 {
 
-    /**
-     * Returns the repository name.
-     * 
-     * @return
-     */
-    String getName();
-
-    /**
-     * Returns the root resource.
-     * 
-     * @return
-     */
-    Resource getRoot()
-        throws ResourcesException;
-
-    Resource getRootWithFilter( Filter filter )
-        throws ResourcesException;
-
-    List<BinaryData> downloadMultiple( List<String> resourceIds )
-        throws ResourcesException;
-
-    /**
-     * Download the content of the given unique resource id.
-     * 
-     * @param resourcePath the unique resource id.
-     * @return the byte array of the content of the given resourcePath.
-     */
-    BinaryData download( String resourceId )
-        throws ResourcesException;
-
-    void upload( BinaryData data )
-        throws ResourcesException;
-
+    public MockJAXRSResourcesApplication()
+    {
+        super.getRegistry().clear();
+        super.getRegistry().addService( new MockResourcesService("resources") );
+    }
 }

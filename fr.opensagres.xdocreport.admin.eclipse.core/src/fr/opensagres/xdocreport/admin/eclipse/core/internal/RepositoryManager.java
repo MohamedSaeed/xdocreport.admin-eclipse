@@ -7,8 +7,8 @@ import fr.opensagres.xdocreport.admin.eclipse.core.IRepositoryManager;
 import fr.opensagres.xdocreport.admin.eclipse.core.Repository;
 import fr.opensagres.xdocreport.remoting.resources.services.ResourcesService;
 import fr.opensagres.xdocreport.remoting.resources.services.ServiceType;
-import fr.opensagres.xdocreport.remoting.resources.services.rest.client.JAXRSResourcesServiceClientFactory;
-import fr.opensagres.xdocreport.remoting.resources.services.ws.client.JAXWSResourcesServiceClientFactory;
+import fr.opensagres.xdocreport.remoting.resources.services.client.jaxrs.JAXRSResourcesServiceClientFactory;
+import fr.opensagres.xdocreport.remoting.resources.services.client.jaxws.JAXWSResourcesServiceClientFactory;
 
 public class RepositoryManager implements IRepositoryManager {
 
@@ -17,15 +17,15 @@ public class RepositoryManager implements IRepositoryManager {
 	public RepositoryManager() {
 		Repository r = new Repository();
 		r.setBaseAddress("http://xdocreport.opensagres.cloudbees.net/cxf/");
-		r.setServiceType(ServiceType.REST);
+		r.setServiceType(ServiceType.JAXRS);
 		saveRepository(r);
 		r = new Repository();
 		r.setBaseAddress("http://localhost:8080/xdocreport-webapp/cxf");
-		r.setServiceType(ServiceType.REST);
+		r.setServiceType(ServiceType.JAXRS);
 		saveRepository(r);
 		r = new Repository();
 		r.setBaseAddress("http://localhost:8080/xdocreport-webapp/cxf/resources");
-		r.setServiceType(ServiceType.SOAP);
+		r.setServiceType(ServiceType.JAXWS);
 		saveRepository(r);
 	}
 
@@ -40,7 +40,7 @@ public class RepositoryManager implements IRepositoryManager {
 		Long connectionTimeout = repository.getConnectionTimeout();
 		Boolean allowChunking = repository.getAllowChunking();
 
-		if (ServiceType.SOAP.equals(repository.getServiceType())) {
+		if (ServiceType.JAXWS.equals(repository.getServiceType())) {
 			return JAXWSResourcesServiceClientFactory.create(baseAddress,
 					username, password, connectionTimeout, allowChunking);
 		}
