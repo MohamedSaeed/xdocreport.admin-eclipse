@@ -98,12 +98,19 @@ public class JAXRSResourcesServiceClient
                 httpClientPolicy.setAllowChunking( allowChunking );
             }
             http.setClient( httpClientPolicy );
+            
+            // Gestion proxy
+          
+
 
         }
+        
+        ClientConfiguration config = WebClient.getConfig( client );
+//        HTTPConduit http = (HTTPConduit) config.getConduit();
 
         //if ( LOGGER.isLoggable( Level.FINE ) )
         //{
-            ClientConfiguration config = WebClient.getConfig( client );
+         
             config.getInInterceptors().add( new LoggingInInterceptor() );
             config.getOutInterceptors().add( new LoggingOutInterceptor() );
         //}

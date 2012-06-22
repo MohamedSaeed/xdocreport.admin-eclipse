@@ -21,10 +21,16 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
+      <category
+            name="%XDocReport.category"
+            id="fr.opensagres.xdocreport.admin.eclipse">
+      </category>         
       <view
             name="%RepositoryExplorer.name"
-            class="org.eclipse.springframework.util.SpringExtensionFactory:repositoryExplorer"
-            id="fr.opensagres.xdocreport.admin.eclipse.ui.views.RepositoryExplorer">
+            class="fr.opensagres.xdocreport.admin.eclipse.ui.views.RepositoryExplorer"
+            id="fr.opensagres.xdocreport.admin.eclipse.ui.views.RepositoryExplorer"
+            category="fr.opensagres.xdocreport.admin.eclipse"
+            icon="icons/obj16/repositories.gif" >
       </view>
    </extension>
    <extension
@@ -36,7 +42,7 @@
                minimized="false"
                relative="org.eclipse.ui.editorss"
                relationship="left"
-               ratio="0.30f"
+               ratio="0.25f"
                id="fr.opensagres.xdocreport.admin.eclipse.ui.views.RepositoryExplorer">
          </view>
       </perspectiveExtension>
@@ -57,27 +63,31 @@
    <extension
         point="org.eclipse.ui.editors">
      <editor
-           class="org.eclipse.springframework.util.SpringExtensionFactory:fileResourceEditor"           
+           class="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FileResourceEditor"           
            extensions="*"
            icon="icons/obj16/file.gif"
            id="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FileResourceEditor"
            name="%FileResourceEditor.name">
-     </editor>
-   </extension>
-   <extension
-        point="org.eclipse.ui.editors">
+     </editor>        
      <editor
-           class="org.eclipse.springframework.util.SpringExtensionFactory:folderResourceEditor"           
+           class="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FolderResourceEditor"           
            extensions="*"
            icon="icons/obj16/folder.gif"
            id="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FolderResourceEditor"
            name="%FolderResourceEditor.name">
      </editor>
+     <editor
+           class="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.TemplateResourceEditor"           
+           extensions="*"
+           icon="icons/obj16/template.gif"
+           id="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.TemplateResourceEditor"
+           name="%TemplateResourceEditor.name">
+     </editor>     
    </extension>
    <extension
         point="org.eclipse.ui.editors">
      <editor
-           class="org.eclipse.springframework.util.SpringExtensionFactory:repositoryEditor"           
+           class="fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditor"           
            extensions="*"
            icon="icons/obj16/repository.gif"
            id="fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditor"

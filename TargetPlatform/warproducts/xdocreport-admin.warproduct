@@ -3,30 +3,24 @@
 
 <product useFeatures="false" includeLaunchers="false">
    <plugins>
-      <plugin id="com.ibm.icu.base" fragment=""/>
-      <plugin id="com.springsource.org.aopalliance"/>
-      <plugin id="com.springsource.org.apache.commons.dbcp"/>
-      <plugin id="com.springsource.org.apache.commons.pool"/>
-      <plugin id="com.springsource.org.apache.derby"/>
+      <plugin id="com.ibm.icu.base"/>
       <plugin id="com.springsource.org.apache.log4j"/>
       <plugin id="com.springsource.slf4j.api"/>
       <plugin id="com.springsource.slf4j.log4j" fragment="true"/>
       <plugin id="com.springsource.slf4j.org.apache.commons.logging"/>
       <plugin id="fr.opensagres.xdocreport.admin.config.log4j" fragment="true"/>
-      <plugin id="fr.opensagres.xdocreport.admin.domain"/>
+      <plugin id="fr.opensagres.xdocreport.admin.eclipse.core"/>
       <plugin id="fr.opensagres.xdocreport.admin.eclipse.ui"/>
       <plugin id="fr.opensagres.xdocreport.admin.eclipse.ui-rap"/>
-      <plugin id="fr.opensagres.xdocreport.admin.services"/>
-      <plugin id="fr.opensagres.xdocreport.admin.services.impl"/>
       <plugin id="fr.opensagres.xdocreport.commons.utils"/>
       <plugin id="fr.opensagres.xdocreport.core"/>
       <plugin id="fr.opensagres.xdocreport.remoting.resources"/>
       <plugin id="fr.opensagres.xdocreport.remoting.resources.client"/>
       <plugin id="org.apache.commons.lang"/>
       <plugin id="org.apache.cxf.bundle-minimal"/>
-      <plugin id="org.apache.felix.gogo.command" fragment=""/>
-      <plugin id="org.apache.felix.gogo.runtime" fragment=""/>
-      <plugin id="org.apache.felix.gogo.shell" fragment=""/>
+      <plugin id="org.apache.felix.gogo.command"/>
+      <plugin id="org.apache.felix.gogo.runtime"/>
+      <plugin id="org.apache.felix.gogo.shell"/>
       <plugin id="org.apache.geronimo.specs.geronimo-activation_1.1_spec"/>
       <plugin id="org.apache.geronimo.specs.geronimo-annotation_1.0_spec"/>
       <plugin id="org.apache.geronimo.specs.geronimo-annotation_1.1_spec"/>
@@ -58,70 +52,40 @@
       <plugin id="org.eclipse.core.runtime"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
-      <plugin id="org.eclipse.equinox.console" fragment=""/>
+      <plugin id="org.eclipse.equinox.console"/>
       <plugin id="org.eclipse.equinox.ds"/>
-      <plugin id="org.eclipse.equinox.http.registry" fragment=""/>
-      <plugin id="org.eclipse.equinox.http.servlet" fragment=""/>
-      <plugin id="org.eclipse.equinox.http.servletbridge" fragment=""/>
+      <plugin id="org.eclipse.equinox.http.registry"/>
+      <plugin id="org.eclipse.equinox.http.servlet"/>
+      <plugin id="org.eclipse.equinox.http.servletbridge"/>
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
-      <plugin id="org.eclipse.equinox.servletbridge" fragment=""/>
+      <plugin id="org.eclipse.equinox.servletbridge"/>
       <plugin id="org.eclipse.equinox.servletbridge.extensionbundle" fragment="true"/>
       <plugin id="org.eclipse.equinox.util"/>
       <plugin id="org.eclipse.help"/>
-      <plugin id="org.eclipse.jdt.junit.runtime" fragment=""/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
-      <plugin id="org.eclipse.persistence.antlr"/>
-      <plugin id="org.eclipse.persistence.asm"/>
-      <plugin id="org.eclipse.persistence.core"/>
-      <plugin id="org.eclipse.persistence.jpa"/>
-      <plugin id="org.eclipse.rap.demo" fragment=""/>
-      <plugin id="org.eclipse.rap.demo.databinding" fragment=""/>
-      <plugin id="org.eclipse.rap.design.example" fragment=""/>
-      <plugin id="org.eclipse.rap.jface" fragment=""/>
-      <plugin id="org.eclipse.rap.jface.databinding" fragment=""/>
-      <plugin id="org.eclipse.rap.junit" fragment=""/>
-      <plugin id="org.eclipse.rap.junit.runtime" fragment=""/>
-      <plugin id="org.eclipse.rap.rwt" fragment=""/>
-      <plugin id="org.eclipse.rap.rwt.osgi" fragment=""/>
+      <plugin id="org.eclipse.rap.design.example"/>
+      <plugin id="org.eclipse.rap.jface"/>
+      <plugin id="org.eclipse.rap.jface.databinding"/>
+      <plugin id="org.eclipse.rap.rwt"/>
+      <plugin id="org.eclipse.rap.rwt.osgi"/>
       <plugin id="org.eclipse.rap.singlesourcing"/>
-      <plugin id="org.eclipse.rap.ui" fragment=""/>
-      <plugin id="org.eclipse.rap.ui.cheatsheets" fragment=""/>
-      <plugin id="org.eclipse.rap.ui.forms" fragment=""/>
-      <plugin id="org.eclipse.rap.ui.views" fragment=""/>
-      <plugin id="org.eclipse.rap.ui.workbench" fragment=""/>
-      <plugin id="org.eclipse.springframework.util"/>
-      <plugin id="org.junit" fragment=""/>
+      <plugin id="org.eclipse.rap.ui"/>
+      <plugin id="org.eclipse.rap.ui.forms"/>
+      <plugin id="org.eclipse.rap.ui.views"/>
+      <plugin id="org.eclipse.rap.ui.workbench"/>
       <plugin id="org.jvnet.mimepull"/>
-      <plugin id="org.springframework.aop"/>
-      <plugin id="org.springframework.asm"/>
-      <plugin id="org.springframework.beans"/>
-      <plugin id="org.springframework.context"/>
-      <plugin id="org.springframework.core"/>
-      <plugin id="org.springframework.data.commons"/>
-      <plugin id="org.springframework.expression"/>
-      <plugin id="org.springframework.jdbc"/>
-      <plugin id="org.springframework.osgi.core"/>
-      <plugin id="org.springframework.osgi.extender"/>
-      <plugin id="org.springframework.osgi.io"/>
-      <plugin id="org.springframework.transaction"/>
    </plugins>
 
    <configurations>
       <plugin id="com.ibm.icu.base" autoStart="true" startLevel="0" />
-      <plugin id="com.springsource.org.aopalliance" autoStart="true" startLevel="0" />
-      <plugin id="com.springsource.org.apache.commons.dbcp" autoStart="true" startLevel="0" />
-      <plugin id="com.springsource.org.apache.commons.pool" autoStart="true" startLevel="0" />
-      <plugin id="com.springsource.org.apache.derby" autoStart="true" startLevel="0" />
       <plugin id="com.springsource.org.apache.log4j" autoStart="true" startLevel="0" />
       <plugin id="com.springsource.slf4j.api" autoStart="true" startLevel="0" />
       <plugin id="com.springsource.slf4j.org.apache.commons.logging" autoStart="true" startLevel="0" />
-      <plugin id="fr.opensagres.xdocreport.admin.domain" autoStart="true" startLevel="0" />
+      <plugin id="fr.opensagres.xdocreport.admin.eclipse.core" autoStart="true" startLevel="0" />
       <plugin id="fr.opensagres.xdocreport.admin.eclipse.ui" autoStart="true" startLevel="0" />
       <plugin id="fr.opensagres.xdocreport.admin.eclipse.ui-rap" autoStart="true" startLevel="0" />
-      <plugin id="fr.opensagres.xdocreport.admin.services" autoStart="true" startLevel="0" />
-      <plugin id="fr.opensagres.xdocreport.admin.services.impl" autoStart="true" startLevel="0" />
       <plugin id="fr.opensagres.xdocreport.commons.utils" autoStart="true" startLevel="0" />
       <plugin id="fr.opensagres.xdocreport.core" autoStart="true" startLevel="0" />
       <plugin id="fr.opensagres.xdocreport.remoting.resources" autoStart="true" startLevel="0" />
@@ -170,46 +134,21 @@
       <plugin id="org.eclipse.equinox.preferences" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.registry" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.servletbridge" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.equinox.servletbridge.extensionbundle" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.util" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.help" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.jdt.junit.runtime" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.osgi" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.osgi.services" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.persistence.antlr" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.persistence.asm" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.persistence.core" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.persistence.jpa" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.rap.demo" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.rap.demo.databinding" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.rap.design.example" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.rap.jface" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.rap.jface.databinding" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.rap.junit" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.rap.junit.runtime" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.rap.rwt" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.rap.rwt.osgi" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.rap.singlesourcing" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.rap.ui" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.rap.ui.cheatsheets" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.rap.ui.forms" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.rap.ui.views" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.rap.ui.workbench" autoStart="true" startLevel="0" />
-      <plugin id="org.eclipse.springframework.util" autoStart="true" startLevel="0" />
-      <plugin id="org.junit" autoStart="true" startLevel="0" />
       <plugin id="org.jvnet.mimepull" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.aop" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.asm" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.beans" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.context" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.core" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.data.commons" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.expression" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.jdbc" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.osgi.core" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.osgi.extender" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.osgi.io" autoStart="true" startLevel="0" />
-      <plugin id="org.springframework.transaction" autoStart="true" startLevel="0" />
    </configurations>
 
    <warConfiguration webXml="/TargetPlatform/warproducts/WEB-INF/web.xml" launchIni="/TargetPlatform/warproducts/WEB-INF/launch.ini">

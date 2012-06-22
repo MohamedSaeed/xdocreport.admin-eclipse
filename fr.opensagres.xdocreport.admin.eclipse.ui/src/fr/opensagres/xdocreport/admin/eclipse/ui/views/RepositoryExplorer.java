@@ -3,6 +3,9 @@ package fr.opensagres.xdocreport.admin.eclipse.ui.views;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -13,25 +16,26 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import fr.opensagres.xdocreport.admin.domain.Repository;
+import fr.opensagres.xdocreport.admin.eclipse.core.IRepositoryManager;
+import fr.opensagres.xdocreport.admin.eclipse.core.Platform;
+import fr.opensagres.xdocreport.admin.eclipse.core.Repository;
 import fr.opensagres.xdocreport.admin.eclipse.ui.Activator;
-import fr.opensagres.xdocreport.admin.eclipse.ui.dialogs.AddRepositoryDialog;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditorInput;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FileResourceEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FolderResourceEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.ResourceEditorInput;
+import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.TemplateResourceEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.internal.ImageResources;
-import fr.opensagres.xdocreport.admin.services.RepositoryService;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
 import fr.opensagres.xdocreport.remoting.resources.domain.ResourceType;
 
@@ -40,13 +44,13 @@ public class RepositoryExplorer extends ViewPart implements
 
 	public static final String ID = "fr.opensagres.xdocreport.admin.eclipse.ui.views.RepositoryExplorer";
 
-	private RepositoryService repositoryService;
-
-	public void setRepositoryService(RepositoryService repositoryService) {
-		this.repositoryService = repositoryService;
-	}
+	private IRepositoryManager repositoryManager;
 
 	private TreeViewer viewer;
+
+	public RepositoryExplorer() {
+		this.repositoryManager = Platform.getRepositoryManager();
+	}
 
 	/**
 	 * The content provider class is responsible for providing objects to the
@@ -58,6 +62,7 @@ public class RepositoryExplorer extends ViewPart implements
 	class ViewContentProvider implements IStructuredContentProvider,
 			ITreeContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+
 		}
 
 		public void dispose() {
@@ -67,8 +72,8 @@ public class RepositoryExplorer extends ViewPart implements
 			if (parent instanceof Object[]) {
 				return (Object[]) parent;
 			}
-			if (parent instanceof RepositoryService) {
-				return ((RepositoryService) parent).getRepositories();
+			if (parent instanceof IRepositoryManager) {
+				return ((IRepositoryManager) parent).getRepositories();
 			}
 			return new Object[0];
 		}
@@ -76,12 +81,12 @@ public class RepositoryExplorer extends ViewPart implements
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof Repository) {
 				try {
-					Resource resource = repositoryService.getResourcesService(
+					Resource resource = repositoryManager.getResourcesService(
 							(Repository) parentElement).getRoot();
 					return resource.getChildren().toArray(new Resource[0]);
 				} catch (Throwable e) {
-					Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0,
-							"Repository connection", e);
+					Status status = new Status(IStatus.ERROR,
+							Activator.PLUGIN_ID, 0, "Repository connection", e);
 					ErrorDialog.openError(viewer.getControl().getShell(),
 							"RepositoryService Error", e.getMessage(), status);
 					return null;
@@ -103,8 +108,8 @@ public class RepositoryExplorer extends ViewPart implements
 				return true;
 			}
 			if (element instanceof Resource) {
-				return ResourceType.FOLDER.equals(((Resource) element)
-						.getType());
+				return !ResourceType.FILE
+						.equals(((Resource) element).getType());
 			}
 			return false;
 		}
@@ -130,10 +135,17 @@ public class RepositoryExplorer extends ViewPart implements
 			}
 			if (obj instanceof Resource) {
 				Resource resource = (Resource) obj;
-				if (ResourceType.FILE.equals(resource.getType())) {
+				switch (resource.getType()) {
+				case FILE:
 					return ImageResources.getImage(ImageResources.IMG_FILE_16);
+				case TEMPLATE:
+					return ImageResources
+							.getImage(ImageResources.IMG_TEMPLATE_16);
+				default:
+					return ImageResources
+							.getImage(ImageResources.IMG_FOLDER_16);
 				}
-				return ImageResources.getImage(ImageResources.IMG_FOLDER_16);
+
 			}
 			return PlatformUI.getWorkbench().getSharedImages()
 					.getImage(ISharedImages.IMG_OBJ_ELEMENT);
@@ -150,25 +162,12 @@ public class RepositoryExplorer extends ViewPart implements
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
 		// Provide the input to the ContentProvider
-		viewer.setInput(repositoryService);
+		viewer.setInput(repositoryManager);
 		viewer.addDoubleClickListener(this);
+		initPopupMenu();
 		// viewer.expandAll();
 
-		Action action = new Action() {
-			@Override
-			public void run() {
-				AddRepositoryDialog dialog = new AddRepositoryDialog(
-						parent.getShell());
-				dialog.setRepositoryService(repositoryService);
-				if (Window.OK == dialog.open()) {
-					viewer.refresh();
-				}
-			}
-		};
-		action.setText("Add Repository");
-		action.setImageDescriptor(ImageResources
-				.getImageDescriptor(ImageResources.IMG_REPOSITORY_16));
-
+		Action action = new AddRepositoryAction(this);
 		getViewSite().getActionBars().getToolBarManager().add(action);
 	}
 
@@ -180,35 +179,103 @@ public class RepositoryExplorer extends ViewPart implements
 	}
 
 	public void doubleClick(final DoubleClickEvent event) {
-		ISelection selection = event.getSelection();
+		Object element = getFirstSelectedElement(event.getSelection());
+		openEditor(element);
+	}
+
+	public void openEditor(Object element) {
+		try {
+			if (element instanceof Resource) {
+				Resource resource = (Resource) element;
+				switch (resource.getType()) {
+				case FILE:
+					getSite().getPage().openEditor(
+							new ResourceEditorInput(resource),
+							FileResourceEditor.ID, true);
+					break;
+				case FOLDER:
+					getSite().getPage().openEditor(
+							new ResourceEditorInput(resource),
+							FolderResourceEditor.ID, false);
+					break;
+				case TEMPLATE:
+					getSite().getPage().openEditor(
+							new ResourceEditorInput(resource),
+							TemplateResourceEditor.ID, false);
+					break;
+				}
+			} else if (element instanceof Repository) {
+				Repository repository = (Repository) element;
+				getSite().getPage().openEditor(
+						new RepositoryEditorInput(repository),
+						RepositoryEditor.ID, true);
+			}
+		} catch (PartInitException e) {
+			Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0,
+					"Repository connection", e);
+			ErrorDialog.openError(viewer.getControl().getShell(),
+					"UserService Error", e.getMessage(), status);
+
+		}
+	}
+
+	public Object getFirstSelectedElement() {
+		return getFirstSelectedElement(viewer.getSelection());
+	}
+
+	private Object getFirstSelectedElement(ISelection selection) {
 		if (selection != null && selection instanceof IStructuredSelection) {
 			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-			Object element = structuredSelection.getFirstElement();
-			try {
-				if (element instanceof Resource) {
-					Resource resource = (Resource) element;
-					if (ResourceType.FILE.equals(resource.getType())) {
-						getSite().getPage().openEditor(
-								new ResourceEditorInput(resource),
-								FileResourceEditor.ID, true);
-					} else {
-						getSite().getPage().openEditor(
-								new ResourceEditorInput(resource),
-								FolderResourceEditor.ID, false);
-					}
-				} else if (element instanceof Repository) {
-					Repository repository = (Repository) element;
-					getSite().getPage().openEditor(
-							new RepositoryEditorInput(repository),
-							RepositoryEditor.ID, true);
+			return structuredSelection.getFirstElement();
+		}
+		return null;
+	}
+
+	private void initPopupMenu() {
+		MenuManager menuManager = initMenuManager();
+		Menu menu = menuManager.createContextMenu(viewer.getControl());
+		viewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(menuManager, viewer);
+	}
+
+	private MenuManager initMenuManager() {
+		// initalize the context menu
+		final MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
+		menuMgr.setRemoveAllWhenShown(true);
+		menuMgr.addMenuListener(new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+				Object element = getFirstSelectedElement(viewer.getSelection());
+
+				// Open editor
+				OpenEditorAction openEditorAction = new OpenEditorAction(
+						RepositoryExplorer.this, element);
+				manager.add(openEditorAction);
+
+				if (element instanceof Repository) {
+
+					RefreshAction refreshAction = new RefreshAction(viewer,
+							element);
+					manager.add(refreshAction);
+
+					DeleteAction deleteAction = new DeleteAction(
+							RepositoryExplorer.this);
+					manager.add(deleteAction);
+
+				} else if (element instanceof Resource) {
+
 				}
-			} catch (PartInitException e) {
-				Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0,
-						"Repository connection", e);
-				ErrorDialog.openError(viewer.getControl().getShell(),
-						"UserService Error", e.getMessage(), status);
 
 			}
-		}
+
+		});
+		return menuMgr;
+	}
+
+	public TreeViewer getViewer() {
+		return viewer;
+	}
+
+	public IRepositoryManager getRepositoryManager() {
+		return repositoryManager;
 	}
 }

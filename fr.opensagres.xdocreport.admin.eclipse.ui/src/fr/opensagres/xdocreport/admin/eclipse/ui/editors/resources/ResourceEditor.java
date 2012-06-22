@@ -4,7 +4,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 
-import fr.opensagres.xdocreport.admin.services.RepositoryService;
+import fr.opensagres.xdocreport.admin.eclipse.core.IRepositoryManager;
 import fr.opensagres.xdocreport.remoting.resources.domain.ResourceType;
 
 public abstract class ResourceEditor extends FormEditor {
@@ -15,9 +15,9 @@ public abstract class ResourceEditor extends FormEditor {
 		this.resourceType = resourceType;
 	}
 
-	private RepositoryService repositoryService;
+	private IRepositoryManager repositoryService;
 
-	public void setRepositoryService(RepositoryService repositoryService) {
+	public void setRepositoryService(IRepositoryManager repositoryService) {
 		this.repositoryService = repositoryService;
 	}
 

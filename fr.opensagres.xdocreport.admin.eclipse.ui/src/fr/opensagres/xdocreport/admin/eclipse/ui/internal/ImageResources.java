@@ -25,17 +25,26 @@ public class ImageResources {
 	private static final String MISSING = "icons/missing.png";
 
 	public static final String IMG_REPOSITORY_16 = "repository_16";
+	public static final String IMG_REPOSITORY_NEW_16 = "repository-new_16";
+	public static final String IMG_REPOSITORY_REFRESH_16 = "repository-refresh_16";
 	public static final String IMG_FOLDER_16 = "folder_16";
 	public static final String IMG_FILE_16 = "file_16";
+	public static final String IMG_TEMPLATE_16 = "template_16";
 
 	public static void initialize(ImageRegistry imageRegistry) {
-	//	registerImage(imageRegistry, Activator.PLUGIN_ID, MISSING);
+		// registerImage(imageRegistry, Activator.PLUGIN_ID, MISSING);
 		registerImage(imageRegistry, IMG_REPOSITORY_16, PATH_OBJ_16
 				+ "repository.gif");
+		registerImage(imageRegistry, IMG_REPOSITORY_NEW_16, PATH_OBJ_16
+				+ "repository-new.gif");
+		registerImage(imageRegistry, IMG_REPOSITORY_REFRESH_16, PATH_OBJ_16
+				+ "repository-refresh.gif");
 		registerImage(imageRegistry, IMG_FOLDER_16, PATH_OBJ_16 + "folder.gif");
 		registerImage(imageRegistry, IMG_FILE_16, PATH_OBJ_16 + "file.gif");
+		registerImage(imageRegistry, IMG_TEMPLATE_16, PATH_OBJ_16
+				+ "template.gif");
 	}
-	
+
 	private static void registerImage(ImageRegistry registry, String key,
 			String fileName) {
 		try {

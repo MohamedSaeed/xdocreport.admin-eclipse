@@ -18,6 +18,7 @@ public class Messages extends NLS {
 
 	public static String FileResourceEditor_OverviewPage_GeneralInfo_desc;
 	public static String FolderResourceEditor_OverviewPage_GeneralInfo_desc;
+	public static String TemplateResourceEditor_OverviewPage_GeneralInfo_desc;
 
 	// Overview Page
 	public static String RepositoryEditor_OverviewPage_title;
@@ -25,7 +26,12 @@ public class Messages extends NLS {
 	// Overview/General Info section
 	public static String RepositoryEditor_OverviewPage_GeneralInfo_title;
 	public static String RepositoryEditor_OverviewPage_GeneralInfo_desc;
+	public static String RepositoryEditor_OverviewPage_GeneralInfo_serviceType_label;
 	public static String RepositoryEditor_OverviewPage_GeneralInfo_baseAddress_label;
+	public static String RepositoryEditor_OverviewPage_GeneralInfo_userName_label;
+	public static String RepositoryEditor_OverviewPage_GeneralInfo_password_label;
+	public static String RepositoryEditor_OverviewPage_GeneralInfo_connectionTimeout_label;
+	public static String RepositoryEditor_OverviewPage_GeneralInfo_allowChunking_label;
 
 	// ****************** AddRepositoryDialog ******************
 

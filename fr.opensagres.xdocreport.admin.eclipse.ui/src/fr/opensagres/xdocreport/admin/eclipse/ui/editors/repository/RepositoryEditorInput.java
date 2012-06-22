@@ -4,7 +4,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
-import fr.opensagres.xdocreport.admin.domain.Repository;
+import fr.opensagres.xdocreport.admin.eclipse.core.Repository;
 
 public class RepositoryEditorInput  implements IEditorInput {
 

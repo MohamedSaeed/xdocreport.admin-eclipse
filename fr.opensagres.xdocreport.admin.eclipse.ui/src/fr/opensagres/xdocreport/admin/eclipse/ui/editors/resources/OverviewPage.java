@@ -62,8 +62,7 @@ public class OverviewPage extends FormPage {
 	private void createGeneralInfoSection(FormToolkit toolkit, Composite left) {
 		Section section = toolkit.createSection(left, Section.DESCRIPTION
 				| Section.TITLE_BAR);
-		section.setDescription(isFile() ? Messages.FileResourceEditor_OverviewPage_GeneralInfo_desc
-				: Messages.FolderResourceEditor_OverviewPage_GeneralInfo_desc);
+		section.setDescription(getDescription());
 		section.setText(Messages.ResourceEditor_OverviewPage_GeneralInfo_title);
 		TableWrapData data = new TableWrapData(TableWrapData.FILL_GRAB);
 		section.setLayoutData(data);
@@ -97,6 +96,16 @@ public class OverviewPage extends FormPage {
 		resourceNameText.setLayoutData(resourceNameGridData);
 
 		SingleSourcingUtils.FormToolkit_paintBordersFor(toolkit, sbody);
+	}
+
+	private String getDescription() {
+		switch(resourceType) {
+		case FILE:
+			return Messages.FileResourceEditor_OverviewPage_GeneralInfo_desc;
+		case TEMPLATE:
+			return Messages.TemplateResourceEditor_OverviewPage_GeneralInfo_desc;
+		}
+		return Messages.FolderResourceEditor_OverviewPage_GeneralInfo_desc;
 	}
 
 	@Override

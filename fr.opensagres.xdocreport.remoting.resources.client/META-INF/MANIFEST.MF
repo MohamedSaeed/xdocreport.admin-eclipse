@@ -21,8 +21,8 @@ Bundle-Name: fr.opensagres.xdocreport.remoting.resources.client
 Created-By: Apache Maven Bundle Plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5, JavaSE-1.6
 Build-Jdk: 1.6.0_23
-Bundle-Version: 0.9.8.SNAPSHOTv201206201008
-Bnd-LastModified: 1340179685390
+Bundle-Version: 0.9.8.SNAPSHOTv201206220956
+Bnd-LastModified: 1340351829421
 Bundle-ManifestVersion: 2
 Bundle-License: http://www.opensource.org/licenses/mit-license.php
 Bundle-Description: XDocReport means XML Document reporting. It's Java

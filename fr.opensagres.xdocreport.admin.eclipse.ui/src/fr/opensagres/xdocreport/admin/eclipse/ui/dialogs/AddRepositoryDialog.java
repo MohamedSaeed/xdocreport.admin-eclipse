@@ -17,6 +17,7 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.LayoutConstants;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -33,20 +34,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import fr.opensagres.xdocreport.admin.domain.Repository;
+import fr.opensagres.xdocreport.admin.eclipse.core.Repository;
+import fr.opensagres.xdocreport.admin.eclipse.core.IRepositoryManager;
 import fr.opensagres.xdocreport.admin.eclipse.ui.Activator;
 import fr.opensagres.xdocreport.admin.eclipse.ui.internal.Messages;
-import fr.opensagres.xdocreport.admin.services.RepositoryService;
 import fr.opensagres.xdocreport.commons.utils.StringUtils;
 import fr.opensagres.xdocreport.remoting.resources.services.ResourcesService;
 import fr.opensagres.xdocreport.remoting.resources.services.ServiceType;
 
 public class AddRepositoryDialog extends TitleAreaDialog {
 
-	private final ServiceType[] serviceTypes = { ServiceType.REST,
-			ServiceType.SOAP };
-
-	private RepositoryService repositoryService;
+	private IRepositoryManager repositoryService;
 
 	private Text baseAddressText;
 
@@ -60,7 +58,7 @@ public class AddRepositoryDialog extends TitleAreaDialog {
 
 	private ComboViewer serviceTypeViewer;
 
-	public void setRepositoryService(RepositoryService repositoryService) {
+	public void setRepositoryService(IRepositoryManager repositoryService) {
 		this.repositoryService = repositoryService;
 	}
 
@@ -90,7 +88,7 @@ public class AddRepositoryDialog extends TitleAreaDialog {
 		serviceTypeViewer
 				.setContentProvider(ArrayContentProvider.getInstance());
 		serviceTypeViewer.setLabelProvider(new LabelProvider());
-		serviceTypeViewer.setInput(serviceTypes);
+		serviceTypeViewer.setInput(ServiceType.values());
 		serviceTypeViewer.getControl().setLayoutData(
 				new GridData(GridData.FILL_HORIZONTAL));
 		serviceTypeViewer.getCombo().addSelectionListener(
@@ -159,8 +157,10 @@ public class AddRepositoryDialog extends TitleAreaDialog {
 
 	@Override
 	protected void okPressed() {
-
 		Repository repository = new Repository();
+		repository
+				.setServiceType((ServiceType) ((IStructuredSelection) serviceTypeViewer
+						.getSelection()).getFirstElement());
 		repository.setBaseAddress(baseAddressText.getText());
 		repository.setUsername(userNameText.getText());
 		repository.setPassword(passwordText.getText());
@@ -180,16 +180,18 @@ public class AddRepositoryDialog extends TitleAreaDialog {
 		}
 	}
 
-	private boolean isRepositoryOK(Repository repository) {		
+	private boolean isRepositoryOK(Repository repository) {
 		try {
 			ResourcesService resourcesService = repositoryService
 					.getResourcesService(repository);
 			resourcesService.getName();
 			return true;
 		} catch (Throwable e) {
-			
-			errorDialogWithStackTrace(super.getShell(), "Bad repository", "Repository connection error", e);			
-			return MessageDialog.openConfirm(super.getShell(), "Bad repository",
+
+			errorDialogWithStackTrace(super.getShell(), "Bad repository",
+					"Repository connection error", e);
+			return MessageDialog.openConfirm(super.getShell(),
+					"Bad repository",
 					"The repository is bad, do you wish save it?");
 		}
 	}
@@ -217,28 +219,30 @@ public class AddRepositoryDialog extends TitleAreaDialog {
 	 * Shows JFace ErrorDialog but improved by constructing full stack trace in
 	 * detail area.
 	 */
-	public static void errorDialogWithStackTrace(Shell parent, String dialogTitle,
-			String message, Throwable t) {
+	public static void errorDialogWithStackTrace(Shell parent,
+			String dialogTitle, String message, Throwable t) {
 
-	    StringWriter sw = new StringWriter();
-	    PrintWriter pw = new PrintWriter(sw);
-	    t.printStackTrace(pw);
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		t.printStackTrace(pw);
 
-	    final String trace = sw.toString(); // stack trace as a string
+		final String trace = sw.toString(); // stack trace as a string
 
-	    // Temp holder of child statuses
-	    List<Status> childStatuses = new ArrayList<Status>();
+		// Temp holder of child statuses
+		List<Status> childStatuses = new ArrayList<Status>();
 
-	    // Split output by OS-independend new-line
-	    for (String line : trace.split(System.getProperty("line.separator"))) {
-	        // build & add status
-	        childStatuses.add(new Status(IStatus.ERROR, Activator.PLUGIN_ID, line));
-	    }
+		// Split output by OS-independend new-line
+		for (String line : trace.split(System.getProperty("line.separator"))) {
+			// build & add status
+			childStatuses.add(new Status(IStatus.ERROR, Activator.PLUGIN_ID,
+					line));
+		}
 
-	    MultiStatus ms = new MultiStatus(Activator.PLUGIN_ID, IStatus.ERROR,
-	            childStatuses.toArray(new Status[] {}), // convert to array of statuses
-	            t.getLocalizedMessage(), t);
+		MultiStatus ms = new MultiStatus(Activator.PLUGIN_ID, IStatus.ERROR,
+				childStatuses.toArray(new Status[] {}), // convert to array of
+														// statuses
+				t.getLocalizedMessage(), t);
 
-	    ErrorDialog.openError(parent, dialogTitle, message, ms);
+		ErrorDialog.openError(parent, dialogTitle, message, ms);
 	}
 }
