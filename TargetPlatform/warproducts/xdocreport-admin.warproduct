@@ -8,6 +8,7 @@
       <plugin id="com.springsource.slf4j.api"/>
       <plugin id="com.springsource.slf4j.log4j" fragment="true"/>
       <plugin id="com.springsource.slf4j.org.apache.commons.logging"/>
+      <plugin id="fr.opensagres.eclipse.forms"/>
       <plugin id="fr.opensagres.xdocreport.admin.config.log4j" fragment="true"/>
       <plugin id="fr.opensagres.xdocreport.admin.eclipse.core"/>
       <plugin id="fr.opensagres.xdocreport.admin.eclipse.ui"/>
@@ -83,6 +84,7 @@
       <plugin id="com.springsource.org.apache.log4j" autoStart="true" startLevel="0" />
       <plugin id="com.springsource.slf4j.api" autoStart="true" startLevel="0" />
       <plugin id="com.springsource.slf4j.org.apache.commons.logging" autoStart="true" startLevel="0" />
+      <plugin id="fr.opensagres.eclipse.forms" autoStart="true" startLevel="0" />
       <plugin id="fr.opensagres.xdocreport.admin.eclipse.core" autoStart="true" startLevel="0" />
       <plugin id="fr.opensagres.xdocreport.admin.eclipse.ui" autoStart="true" startLevel="0" />
       <plugin id="fr.opensagres.xdocreport.admin.eclipse.ui-rap" autoStart="true" startLevel="0" />

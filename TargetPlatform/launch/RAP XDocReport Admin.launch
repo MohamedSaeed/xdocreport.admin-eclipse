@@ -29,7 +29,7 @@
 <booleanAttribute key="org.eclipse.rap.launch.terminatePrevious" value="true"/>
 <booleanAttribute key="org.eclipse.rap.launch.useDefaultDataLocation" value="true"/>
 <booleanAttribute key="org.eclipse.rap.launch.useManualContextPath" value="false"/>
-<booleanAttribute key="org.eclipse.rap.launch.useManualPort" value="false"/>
+<booleanAttribute key="org.eclipse.rap.launch.useManualPort" value="true"/>
 <booleanAttribute key="org.eclipse.rap.launch.useSessionTimeout" value="false"/>
 <booleanAttribute key="pde.generated.config" value="true"/>
 <stringAttribute key="pde.version" value="3.3"/>
@@ -38,5 +38,5 @@
 <booleanAttribute key="tracing" value="false"/>
 <booleanAttribute key="useCustomFeatures" value="false"/>
 <booleanAttribute key="useDefaultConfigArea" value="true"/>
-<stringAttribute key="workspace_bundles" value="fr.opensagres.xdocreport.admin.config.log4j@default:false,fr.opensagres.xdocreport.admin.eclipse.core@default:default,fr.opensagres.xdocreport.admin.eclipse.ui-rap@default:default,fr.opensagres.xdocreport.admin.eclipse.ui@default:default,fr.opensagres.xdocreport.commons.utils@default:default,fr.opensagres.xdocreport.core@default:default,fr.opensagres.xdocreport.remoting.resources.services.client@default:default,fr.opensagres.xdocreport.remoting.resources@default:default,org.eclipse.rap.singlesourcing@default:default"/>
+<stringAttribute key="workspace_bundles" value="fr.opensagres.eclipse.forms@default:default,fr.opensagres.xdocreport.admin.config.log4j@default:false,fr.opensagres.xdocreport.admin.eclipse.core@default:default,fr.opensagres.xdocreport.admin.eclipse.ui-rap@default:default,fr.opensagres.xdocreport.admin.eclipse.ui@default:default,fr.opensagres.xdocreport.commons.utils@default:default,fr.opensagres.xdocreport.core@default:default,fr.opensagres.xdocreport.remoting.resources.services.client@default:default,fr.opensagres.xdocreport.remoting.resources@default:default,org.eclipse.rap.singlesourcing@default:default"/>
 </launchConfiguration>
