@@ -63,24 +63,24 @@
    <extension
         point="org.eclipse.ui.editors">
      <editor
-           class="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FileResourceEditor"           
+           class="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.document.DocumentResourceEditor"           
            extensions="*"
-           icon="icons/obj16/file.gif"
-           id="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FileResourceEditor"
-           name="%FileResourceEditor.name">
+           icon="icons/obj16/document.gif"
+           id="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.document.DocumentResourceEditor"
+           name="%DocumentResourceEditor.name">
      </editor>        
      <editor
-           class="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FolderResourceEditor"           
+           class="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.category.CategoryResourceEditor"           
            extensions="*"
-           icon="icons/obj16/folder.gif"
-           id="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FolderResourceEditor"
-           name="%FolderResourceEditor.name">
+           icon="icons/obj16/category.gif"
+           id="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.category.CategoryResourceEditor"
+           name="%CategoryResourceEditor.name">
      </editor>
      <editor
-           class="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.TemplateResourceEditor"           
+           class="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.template.TemplateResourceEditor"           
            extensions="*"
            icon="icons/obj16/template.gif"
-           id="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.TemplateResourceEditor"
+           id="fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.template.TemplateResourceEditor"
            name="%TemplateResourceEditor.name">
      </editor>     
    </extension>

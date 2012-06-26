@@ -1,8 +1,9 @@
 package fr.opensagres.xdocreport.admin.eclipse.core.internal;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import fr.opensagres.xdocreport.admin.eclipse.core.DomainHelper;
 import fr.opensagres.xdocreport.admin.eclipse.core.IRepositoryManager;
 import fr.opensagres.xdocreport.admin.eclipse.core.Repository;
 import fr.opensagres.xdocreport.remoting.resources.services.ResourcesService;
@@ -12,7 +13,7 @@ import fr.opensagres.xdocreport.remoting.resources.services.client.jaxws.JAXWSRe
 
 public class RepositoryManager implements IRepositoryManager {
 
-	private List<Repository> repositories = new ArrayList<Repository>();
+	private Map<Long, Repository> repositories = new HashMap<Long, Repository>();
 
 	public RepositoryManager() {
 		Repository r = new Repository();
@@ -30,7 +31,7 @@ public class RepositoryManager implements IRepositoryManager {
 	}
 
 	public Repository[] getRepositories() {
-		return repositories.toArray(new Repository[0]);
+		return repositories.values().toArray(new Repository[0]);
 	}
 
 	public ResourcesService getResourcesService(Repository repository) {
@@ -48,8 +49,15 @@ public class RepositoryManager implements IRepositoryManager {
 				password, connectionTimeout, allowChunking);
 	}
 
-	public void saveRepository(Repository repository) {
-		repositories.add(repository);
+	public Repository saveRepository(Repository repository) {
+		if (repository.getId() == null) {
+			repository.setId(new Long(repositories.values().size()));
+			repositories.put(repository.getId(), repository);
+			return repository;
+		}
+		Repository r = repositories.get(repository.getId());
+		DomainHelper.copy(repository, r);
+		return r;
 	}
 
 	public void removeRepository(Repository repository) {

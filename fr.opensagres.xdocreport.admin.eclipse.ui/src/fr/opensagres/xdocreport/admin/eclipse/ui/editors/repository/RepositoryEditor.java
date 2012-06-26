@@ -2,39 +2,35 @@ package fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.forms.editor.FormEditor;
 
-import fr.opensagres.xdocreport.admin.eclipse.core.IRepositoryManager;
+import fr.opensagres.eclipse.forms.editor.ModelFormEditor;
+import fr.opensagres.xdocreport.admin.eclipse.core.DomainHelper;
+import fr.opensagres.xdocreport.admin.eclipse.core.Platform;
+import fr.opensagres.xdocreport.admin.eclipse.core.Repository;
 
-public class RepositoryEditor extends FormEditor {
+public class RepositoryEditor extends
+		ModelFormEditor<RepositoryEditorInput, Repository> {
 
 	public static final String ID = "fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditor";
 
 	@Override
-	protected void addPages() {
+	protected void doAddPages() {
 		try {
 			super.addPage(new OverviewPage(this));
-		} catch (PartInitException e) {			
+		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
-	public void doSave(IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
-
+	protected Repository onLoad(RepositoryEditorInput input) {
+		return DomainHelper.clone(input.getModel());
 	}
 
-	@Override
-	public void doSaveAs() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
-	public boolean isSaveAsAllowed() {
-		// TODO Auto-generated method stub
-		return false;
+	protected Repository onSave(Repository repository, IProgressMonitor monitor) {
+		return Platform.getRepositoryManager().saveRepository(repository);
 	}
 
 }

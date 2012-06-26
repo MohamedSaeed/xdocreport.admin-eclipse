@@ -8,7 +8,7 @@ public interface IRepositoryManager {
 
 	ResourcesService getResourcesService(Repository repository);
 
-	void saveRepository(Repository repository);
+	Repository saveRepository(Repository repository);
 
 	void removeRepository(Repository repository);
 	

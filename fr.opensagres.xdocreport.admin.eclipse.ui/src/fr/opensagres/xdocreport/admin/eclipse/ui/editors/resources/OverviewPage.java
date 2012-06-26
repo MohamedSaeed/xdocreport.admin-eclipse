@@ -1,5 +1,9 @@
 package fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources;
 
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.rap.singlesourcing.SingleSourcingUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -7,18 +11,18 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
-import org.eclipse.ui.forms.editor.FormEditor;
-import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
+import fr.opensagres.eclipse.forms.editor.ModelToolbarFormPage;
+import fr.opensagres.xdocreport.admin.eclipse.core.Repository;
 import fr.opensagres.xdocreport.admin.eclipse.ui.FormLayoutFactory;
 import fr.opensagres.xdocreport.admin.eclipse.ui.internal.Messages;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
 import fr.opensagres.xdocreport.remoting.resources.domain.ResourceType;
 
-public class OverviewPage extends FormPage {
+public class OverviewPage extends ModelToolbarFormPage<Resource> {
 
 	private static final String ID = "overview";
 
@@ -26,17 +30,17 @@ public class OverviewPage extends FormPage {
 	private Text resourceIdText;
 	private Text resourceNameText;
 
-	public OverviewPage(FormEditor editor, ResourceType resourceType) {
+	public OverviewPage(ResourceEditor editor, ResourceType resourceType) {
 		super(editor, ID, Messages.ResourceEditor_OverviewPage_title);
 		this.resourceType = resourceType;
 	}
 
 	@Override
-	protected final void createFormContent(IManagedForm managedForm) {
+	protected void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
+
 		Composite body = managedForm.getForm().getBody();
 		body.setLayout(FormLayoutFactory.createFormTableWrapLayout(true, 2));
 
-		FormToolkit toolkit = managedForm.getToolkit();
 		Composite left = toolkit.createComposite(body);
 		left.setLayout(FormLayoutFactory
 				.createFormPaneTableWrapLayout(false, 1));
@@ -75,22 +79,20 @@ public class OverviewPage extends FormPage {
 		glayout.numColumns = 2;
 		sbody.setLayout(glayout);
 
-		Resource resource = getResource();
-
 		// ID
 		toolkit.createLabel(
 				sbody,
 				Messages.ResourceEditor_OverviewPage_GeneralInfo_resourceId_label);
-		resourceIdText = toolkit
-				.createText(sbody, resource.getId(), SWT.SINGLE);
+		resourceIdText = toolkit.createText(sbody, "", SWT.SINGLE);
 		GridData resourceIdGridData = new GridData(GridData.FILL_HORIZONTAL);
 		resourceIdGridData.widthHint = 150;
 		resourceIdText.setLayoutData(resourceIdGridData);
 
 		// Name
-		toolkit.createLabel(sbody, Messages.ResourceEditor_OverviewPage_GeneralInfo_resourceName_label);
-		resourceNameText = toolkit.createText(sbody, resource.getName(),
-				SWT.SINGLE);
+		toolkit.createLabel(
+				sbody,
+				Messages.ResourceEditor_OverviewPage_GeneralInfo_resourceName_label);
+		resourceNameText = toolkit.createText(sbody, "", SWT.SINGLE);
 		GridData resourceNameGridData = new GridData(GridData.FILL_HORIZONTAL);
 		resourceNameGridData.widthHint = 150;
 		resourceNameText.setLayoutData(resourceNameGridData);
@@ -99,7 +101,7 @@ public class OverviewPage extends FormPage {
 	}
 
 	private String getDescription() {
-		switch(resourceType) {
+		switch (resourceType) {
 		case DOCUMENT:
 			return Messages.FileResourceEditor_OverviewPage_GeneralInfo_desc;
 		case TEMPLATE:
@@ -108,16 +110,22 @@ public class OverviewPage extends FormPage {
 		return Messages.FolderResourceEditor_OverviewPage_GeneralInfo_desc;
 	}
 
-	@Override
-	public ResourceEditorInput getEditorInput() {
-		return (ResourceEditorInput) super.getEditorInput();
-	}
+	public void onBind(DataBindingContext bindingContext) {
 
-	public Resource getResource() {
-		return getEditorInput().getResource();
-	}
+		// bind resource id
+		IObservableValue resourceIdWidgetValue = SWTObservables.observeText(
+				resourceIdText, SWT.Modify);
+		IObservableValue resourceIdModelValue = PojoObservables.observeValue(
+				getModelObject(), Resource.ID_PROPERTY);
+		bindingContext.bindValue(resourceIdWidgetValue, resourceIdModelValue,
+				null, null);
 
-	private boolean isFile() {
-		return ResourceType.DOCUMENT.equals(resourceType);
+		// bind resource name
+		IObservableValue resourceNameWidgetValue = SWTObservables.observeText(
+				resourceNameText, SWT.Modify);
+		IObservableValue resourceNameModelValue = PojoObservables.observeValue(
+				getModelObject(), Resource.NAME_PROPERTY);
+		bindingContext.bindValue(resourceNameWidgetValue,
+				resourceNameModelValue, null, null);
 	}
 }

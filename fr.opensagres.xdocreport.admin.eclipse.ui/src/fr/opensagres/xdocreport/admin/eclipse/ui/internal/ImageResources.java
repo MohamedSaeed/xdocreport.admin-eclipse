@@ -27,8 +27,8 @@ public class ImageResources {
 	public static final String IMG_REPOSITORY_16 = "repository_16";
 	public static final String IMG_REPOSITORY_NEW_16 = "repository-new_16";
 	public static final String IMG_REPOSITORY_REFRESH_16 = "repository-refresh_16";
-	public static final String IMG_FOLDER_16 = "folder_16";
-	public static final String IMG_FILE_16 = "file_16";
+	public static final String IMG_CATEGORY_16 = "category_16";
+	public static final String IMG_DOCUMENT_16 = "document_16";
 	public static final String IMG_TEMPLATE_16 = "template_16";
 
 	public static void initialize(ImageRegistry imageRegistry) {
@@ -39,8 +39,10 @@ public class ImageResources {
 				+ "repository-new.gif");
 		registerImage(imageRegistry, IMG_REPOSITORY_REFRESH_16, PATH_OBJ_16
 				+ "repository-refresh.gif");
-		registerImage(imageRegistry, IMG_FOLDER_16, PATH_OBJ_16 + "folder.gif");
-		registerImage(imageRegistry, IMG_FILE_16, PATH_OBJ_16 + "file.gif");
+		registerImage(imageRegistry, IMG_CATEGORY_16, PATH_OBJ_16
+				+ "category.gif");
+		registerImage(imageRegistry, IMG_DOCUMENT_16, PATH_OBJ_16
+				+ "document.gif");
 		registerImage(imageRegistry, IMG_TEMPLATE_16, PATH_OBJ_16
 				+ "template.gif");
 	}

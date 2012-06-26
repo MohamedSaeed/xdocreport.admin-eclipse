@@ -31,10 +31,10 @@ import fr.opensagres.xdocreport.admin.eclipse.core.Repository;
 import fr.opensagres.xdocreport.admin.eclipse.ui.Activator;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.repository.RepositoryEditorInput;
-import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FileResourceEditor;
-import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.FolderResourceEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.ResourceEditorInput;
-import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.TemplateResourceEditor;
+import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.category.CategoryResourceEditor;
+import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.document.DocumentResourceEditor;
+import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.template.TemplateResourceEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.internal.ImageResources;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
 import fr.opensagres.xdocreport.remoting.resources.domain.ResourceType;
@@ -137,13 +137,13 @@ public class RepositoryExplorer extends ViewPart implements
 				Resource resource = (Resource) obj;
 				switch (resource.getType()) {
 				case DOCUMENT:
-					return ImageResources.getImage(ImageResources.IMG_FILE_16);
+					return ImageResources.getImage(ImageResources.IMG_DOCUMENT_16);
 				case TEMPLATE:
 					return ImageResources
 							.getImage(ImageResources.IMG_TEMPLATE_16);
 				default:
 					return ImageResources
-							.getImage(ImageResources.IMG_FOLDER_16);
+							.getImage(ImageResources.IMG_CATEGORY_16);
 				}
 
 			}
@@ -191,12 +191,12 @@ public class RepositoryExplorer extends ViewPart implements
 				case DOCUMENT:
 					getSite().getPage().openEditor(
 							new ResourceEditorInput(resource),
-							FileResourceEditor.ID, true);
+							DocumentResourceEditor.ID, true);
 					break;
 				case CATEGORY:
 					getSite().getPage().openEditor(
 							new ResourceEditorInput(resource),
-							FolderResourceEditor.ID, false);
+							CategoryResourceEditor.ID, false);
 					break;
 				case TEMPLATE:
 					getSite().getPage().openEditor(

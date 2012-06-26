@@ -4,12 +4,28 @@ import fr.opensagres.xdocreport.remoting.resources.services.ServiceType;
 
 public class Repository {
 
+	public static final String SERVICE_TYPE_PROPERTY = "serviceType";
+	public static final String BASE_ADDRESS_PROPERTY = "baseAddress";
+	public static final String USERNAME_PROPERTY = "username";
+	public static final String PASSWORD_PROPERTY = "password";
+	public static final String CONNECTION_TIMEOUT_PROPERTY = "connectionTimeout";
+	public static final String ALLOW_CHUNKING_PROPERTY = "allowChunking";
+
+	private Long id;
 	private ServiceType serviceType;
 	private String baseAddress;
 	private String username;
 	private String password;
 	private Long connectionTimeout;
 	private Boolean allowChunking;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public ServiceType getServiceType() {
 		return serviceType;
