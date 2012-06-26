@@ -28,5 +28,9 @@ public abstract class ResourceEditor<EditorInput extends ResourceEditorInput, Mo
 	protected Resource onLoad(ResourceEditorInput input) {
 		return input.getModel();
 	}
+	
+	public ResourceType getResourceType() {
+		return resourceType;
+	}
 
 }

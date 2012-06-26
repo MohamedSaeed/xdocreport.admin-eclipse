@@ -7,6 +7,8 @@ public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "fr.opensagres.xdocreport.admin.eclipse.ui.internal.Messages";//$NON-NLS-1$
 
 	// -----------------------------
+	public static String addButton_label;
+	public static String removeButton_label;
 
 	// Overview Page
 	public static String ResourceEditor_OverviewPage_title;
@@ -24,8 +26,17 @@ public class Messages extends NLS {
 
 	public static String TemplateResourceEditor_DocumentsPage_title;
 	public static String TemplateResourceEditor_FieldsMetadataPage_title;
-	
-	
+
+	public static String TemplateResourceEditor_DocumentsPage_DocumentsMasterDetailsBlock_title;
+	public static String TemplateResourceEditor_DocumentsPage_DocumentsMasterDetailsBlock_desc;
+
+	public static String TemplateResourceEditor_DocumentsPage_DocumentDetailsPage_title;
+	public static String TemplateResourceEditor_DocumentsPage_DocumentDetailsPage_desc;
+	public static String TemplateResourceEditor_DocumentsPage_DocumentDetailsPage_templateName_label;
+
+	public static String TemplateResourceEditor_TemplateOverviewPage_TemplateResourceContent_title;
+	public static String TemplateResourceEditor_TemplateOverviewPage_TemplateResourceContent_content;
+
 	// Overview Page
 	public static String RepositoryEditor_OverviewPage_title;
 
@@ -50,7 +61,7 @@ public class Messages extends NLS {
 	public static String AddRepositoryDialog_password_label;
 	public static String AddRepositoryDialog_allowChunking_label;
 	public static String AddRepositoryDialog_connectionTimeout_label;
-	
+
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

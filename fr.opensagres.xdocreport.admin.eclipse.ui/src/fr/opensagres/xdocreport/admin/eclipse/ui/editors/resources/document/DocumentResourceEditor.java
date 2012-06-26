@@ -1,6 +1,7 @@
 package fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.document;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.ResourceEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.ResourceEditorInput;
@@ -18,8 +19,10 @@ public class DocumentResourceEditor extends
 
 	@Override
 	protected Resource onSave(Resource modelObject, IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO: save it
+		MessageDialog.openInformation(super.getSite().getShell(), "TODO",
+				"Implements onSave to save Document with JAX-RS!");
+		return modelObject;
 	}
 
 }

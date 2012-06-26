@@ -6,23 +6,27 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.rap.singlesourcing.SingleSourcingUtils;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.events.IHyperlinkListener;
+import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
 import fr.opensagres.eclipse.forms.editor.ModelToolbarFormPage;
-import fr.opensagres.xdocreport.admin.eclipse.core.Repository;
 import fr.opensagres.xdocreport.admin.eclipse.ui.FormLayoutFactory;
 import fr.opensagres.xdocreport.admin.eclipse.ui.internal.Messages;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
 import fr.opensagres.xdocreport.remoting.resources.domain.ResourceType;
 
-public class OverviewPage extends ModelToolbarFormPage<Resource> {
+public class OverviewPage extends ModelToolbarFormPage<Resource> implements
+		IHyperlinkListener {
 
 	private static final String ID = "overview";
 
@@ -46,8 +50,7 @@ public class OverviewPage extends ModelToolbarFormPage<Resource> {
 				.createFormPaneTableWrapLayout(false, 1));
 		left.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		// General info section
-		createGeneralInfoSection(toolkit, left);
+		createLeftSection(toolkit, left);
 
 		// Address section
 		// createAddressSection(toolkit, left);
@@ -58,9 +61,19 @@ public class OverviewPage extends ModelToolbarFormPage<Resource> {
 		right.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		// Content section
-		// createContentSection(toolkit, right);
+		createRightSection(toolkit, right);
 
 		// createResumeInfoSection(toolkit, right);
+	}
+
+	protected void createRightSection(FormToolkit toolkit, Composite right) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void createLeftSection(FormToolkit toolkit, Composite left) {
+		// General info section
+		createGeneralInfoSection(toolkit, left);
 	}
 
 	private void createGeneralInfoSection(FormToolkit toolkit, Composite left) {
@@ -83,11 +96,11 @@ public class OverviewPage extends ModelToolbarFormPage<Resource> {
 		toolkit.createLabel(
 				sbody,
 				Messages.ResourceEditor_OverviewPage_GeneralInfo_resourceId_label);
-		resourceIdText = toolkit.createText(sbody, "", SWT.SINGLE);
+		resourceIdText = toolkit.createText(sbody, "", SWT.READ_ONLY);
 		GridData resourceIdGridData = new GridData(GridData.FILL_HORIZONTAL);
 		resourceIdGridData.widthHint = 150;
 		resourceIdText.setLayoutData(resourceIdGridData);
-
+		
 		// Name
 		toolkit.createLabel(
 				sbody,
@@ -127,5 +140,40 @@ public class OverviewPage extends ModelToolbarFormPage<Resource> {
 				getModelObject(), Resource.NAME_PROPERTY);
 		bindingContext.bindValue(resourceNameWidgetValue,
 				resourceNameModelValue, null, null);
+	}
+
+	protected Composite createStaticSectionClient(FormToolkit toolkit,
+			Composite parent) {
+		Composite container = toolkit.createComposite(parent, SWT.NONE);
+		container.setLayout(FormLayoutFactory
+				.createSectionClientTableWrapLayout(false, 1));
+		TableWrapData data = new TableWrapData(TableWrapData.FILL_GRAB);
+		container.setLayoutData(data);
+		return container;
+	}
+
+	public void linkActivated(HyperlinkEvent e) {
+		String href = (String) e.getHref();
+		getEditor().setActivePage(href);
+	}
+
+	public void linkEntered(HyperlinkEvent e) {
+		// Do nothing
+	}
+
+	public void linkExited(HyperlinkEvent e) {
+		// Do nothing
+	}
+
+	protected final FormText createClient(Composite section, String content,
+			FormToolkit toolkit) {
+		FormText text = toolkit.createFormText(section, true);
+		try {
+			text.setText(content, true, false);
+		} catch (SWTException e) {
+			text.setText(e.getMessage(), false, false);
+		}
+		text.addHyperlinkListener(this);
+		return text;
 	}
 }

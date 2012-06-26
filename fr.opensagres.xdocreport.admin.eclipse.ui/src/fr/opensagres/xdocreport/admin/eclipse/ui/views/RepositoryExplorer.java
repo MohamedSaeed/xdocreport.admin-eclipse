@@ -1,5 +1,7 @@
 package fr.opensagres.xdocreport.admin.eclipse.ui.views;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
@@ -36,6 +38,8 @@ import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.category.Cate
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.document.DocumentResourceEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.template.TemplateResourceEditor;
 import fr.opensagres.xdocreport.admin.eclipse.ui.internal.ImageResources;
+import fr.opensagres.xdocreport.admin.eclipse.ui.viewers.ResourceLabelProvider;
+import fr.opensagres.xdocreport.commons.utils.StringUtils;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
 import fr.opensagres.xdocreport.remoting.resources.domain.ResourceType;
 
@@ -83,6 +87,7 @@ public class RepositoryExplorer extends ViewPart implements
 				try {
 					Resource resource = repositoryManager.getResourcesService(
 							(Repository) parentElement).getRoot();
+					updateResourceIdIfNeeded(resource);
 					return resource.getChildren().toArray(new Resource[0]);
 				} catch (Throwable e) {
 					Status status = new Status(IStatus.ERROR,
@@ -94,9 +99,24 @@ public class RepositoryExplorer extends ViewPart implements
 			}
 			if (parentElement instanceof Resource) {
 				Resource resource = (Resource) parentElement;
+				updateResourceIdIfNeeded(resource);
 				return resource.getChildren().toArray(new Resource[0]);
 			}
 			return null;
+		}
+
+		private void updateResourceIdIfNeeded(Resource resource) {
+			if (StringUtils.isEmpty(resource.getId())) {
+				resource.setId(resource.getName());
+			}
+			List<Resource> resources= resource.getChildren();
+			if (resources.size() > 0) {
+				if (StringUtils.isEmpty(resources.get(0).getId())) {
+					for (Resource child : resources) {
+						child.setId(resource.getId() + "/" + child.getName());
+					}
+				}				
+			}
 		}
 
 		public Object getParent(Object element) {
@@ -108,8 +128,8 @@ public class RepositoryExplorer extends ViewPart implements
 				return true;
 			}
 			if (element instanceof Resource) {
-				return !ResourceType.DOCUMENT
-						.equals(((Resource) element).getType());
+				return !ResourceType.DOCUMENT.equals(((Resource) element)
+						.getType());
 			}
 			return false;
 		}
@@ -122,7 +142,7 @@ public class RepositoryExplorer extends ViewPart implements
 				return ((Repository) obj).getBaseAddress();
 			}
 			if (obj instanceof Resource) {
-				return ((Resource) obj).getName();
+				return (ResourceLabelProvider.getInstance().getText(obj));
 			}
 			return super.getText(obj);
 		}
@@ -134,18 +154,7 @@ public class RepositoryExplorer extends ViewPart implements
 						.getImage(ImageResources.IMG_REPOSITORY_16);
 			}
 			if (obj instanceof Resource) {
-				Resource resource = (Resource) obj;
-				switch (resource.getType()) {
-				case DOCUMENT:
-					return ImageResources.getImage(ImageResources.IMG_DOCUMENT_16);
-				case TEMPLATE:
-					return ImageResources
-							.getImage(ImageResources.IMG_TEMPLATE_16);
-				default:
-					return ImageResources
-							.getImage(ImageResources.IMG_CATEGORY_16);
-				}
-
+				return ResourceLabelProvider.getInstance().getImage(obj);
 			}
 			return PlatformUI.getWorkbench().getSharedImages()
 					.getImage(ISharedImages.IMG_OBJ_ELEMENT);

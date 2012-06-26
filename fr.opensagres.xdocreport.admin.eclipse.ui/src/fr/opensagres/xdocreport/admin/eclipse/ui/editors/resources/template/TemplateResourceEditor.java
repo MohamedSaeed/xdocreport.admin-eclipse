@@ -1,6 +1,7 @@
 package fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.template;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.PartInitException;
 
 import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.ResourceEditor;
@@ -19,8 +20,8 @@ public class TemplateResourceEditor extends
 
 	@Override
 	protected void doAddPages() {
-		super.doAddPages();
 		try {
+			super.addPage(new TemplateOverviewPage(this, getResourceType()));
 			super.addPage(new DocumentsPage(this));
 			super.addPage(new FieldsMetadataPage(this));
 		} catch (PartInitException e) {
@@ -31,8 +32,8 @@ public class TemplateResourceEditor extends
 	@Override
 	protected Resource onSave(Resource modelObject, IProgressMonitor monitor) {
 		// TODO: save it
-
-		return null;
+		MessageDialog.openInformation(super.getSite().getShell(), "TODO", "Implements onSave to save Template with JAX-RS!");
+		return modelObject;
 	}
 
 }
