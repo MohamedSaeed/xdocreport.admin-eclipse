@@ -20,6 +20,12 @@ public class Messages extends NLS {
 	public static String FolderResourceEditor_OverviewPage_GeneralInfo_desc;
 	public static String TemplateResourceEditor_OverviewPage_GeneralInfo_desc;
 
+	// ****************** TemplateResourceEditor ******************
+
+	public static String TemplateResourceEditor_DocumentsPage_title;
+	public static String TemplateResourceEditor_FieldsMetadataPage_title;
+	
+	
 	// Overview Page
 	public static String RepositoryEditor_OverviewPage_title;
 

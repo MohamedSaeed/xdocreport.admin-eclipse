@@ -201,7 +201,7 @@ public class RepositoryExplorer extends ViewPart implements
 				case TEMPLATE:
 					getSite().getPage().openEditor(
 							new ResourceEditorInput(resource),
-							TemplateResourceEditor.ID, false);
+							TemplateResourceEditor.ID, true);
 					break;
 				}
 			} else if (element instanceof Repository) {

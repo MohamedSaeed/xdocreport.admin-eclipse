@@ -8,12 +8,12 @@ import fr.opensagres.eclipse.forms.editor.ModelToolbarFormPage;
 import fr.opensagres.xdocreport.admin.eclipse.ui.internal.Messages;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
 
-public class DocumentsPage extends ModelToolbarFormPage<Resource> {
+public class FieldsMetadataPage extends ModelToolbarFormPage<Resource> {
 
-	private static final String ID = "documents";
+	private static final String ID = "fieldsmetadata";
 
-	public DocumentsPage(TemplateResourceEditor editor) {
-		super(editor, ID, Messages.TemplateResourceEditor_DocumentsPage_title);
+	public FieldsMetadataPage(TemplateResourceEditor editor) {
+		super(editor, ID, Messages.TemplateResourceEditor_FieldsMetadataPage_title);
 	}
 
 	public void onBind(DataBindingContext dataBindingContext) {
