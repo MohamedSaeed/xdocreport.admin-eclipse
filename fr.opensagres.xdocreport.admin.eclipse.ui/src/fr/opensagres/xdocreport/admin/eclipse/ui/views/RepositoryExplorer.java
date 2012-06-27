@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -41,6 +42,7 @@ import fr.opensagres.xdocreport.admin.eclipse.ui.internal.ImageResources;
 import fr.opensagres.xdocreport.admin.eclipse.ui.viewers.ResourceLabelProvider;
 import fr.opensagres.xdocreport.commons.utils.StringUtils;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
+import fr.opensagres.xdocreport.remoting.resources.domain.ResourceHelper;
 import fr.opensagres.xdocreport.remoting.resources.domain.ResourceType;
 
 public class RepositoryExplorer extends ViewPart implements
@@ -87,7 +89,6 @@ public class RepositoryExplorer extends ViewPart implements
 				try {
 					Resource resource = repositoryManager.getResourcesService(
 							(Repository) parentElement).getRoot();
-					updateResourceIdIfNeeded(resource);
 					return resource.getChildren().toArray(new Resource[0]);
 				} catch (Throwable e) {
 					Status status = new Status(IStatus.ERROR,
@@ -99,24 +100,9 @@ public class RepositoryExplorer extends ViewPart implements
 			}
 			if (parentElement instanceof Resource) {
 				Resource resource = (Resource) parentElement;
-				updateResourceIdIfNeeded(resource);
 				return resource.getChildren().toArray(new Resource[0]);
 			}
 			return null;
-		}
-
-		private void updateResourceIdIfNeeded(Resource resource) {
-			if (StringUtils.isEmpty(resource.getId())) {
-				resource.setId(resource.getName());
-			}
-			List<Resource> resources= resource.getChildren();
-			if (resources.size() > 0) {
-				if (StringUtils.isEmpty(resources.get(0).getId())) {
-					for (Resource child : resources) {
-						child.setId(resource.getId() + "/" + child.getName());
-					}
-				}				
-			}
 		}
 
 		public Object getParent(Object element) {
@@ -189,27 +175,33 @@ public class RepositoryExplorer extends ViewPart implements
 
 	public void doubleClick(final DoubleClickEvent event) {
 		Object element = getFirstSelectedElement(event.getSelection());
-		openEditor(element);
+		Repository repository = getSelectedRepository(event.getSelection());
+		openEditor(repository, element);
 	}
 
-	public void openEditor(Object element) {
+	private Repository getSelectedRepository(ISelection selection) {
+		return (Repository) ((ITreeSelection) selection).getPaths()[0]
+				.getFirstSegment();
+	}
+
+	public void openEditor(Repository selectedRepository, Object element) {
 		try {
 			if (element instanceof Resource) {
 				Resource resource = (Resource) element;
 				switch (resource.getType()) {
 				case DOCUMENT:
 					getSite().getPage().openEditor(
-							new ResourceEditorInput(resource),
+							new ResourceEditorInput(selectedRepository, resource),
 							DocumentResourceEditor.ID, true);
 					break;
 				case CATEGORY:
 					getSite().getPage().openEditor(
-							new ResourceEditorInput(resource),
+							new ResourceEditorInput(selectedRepository, resource),
 							CategoryResourceEditor.ID, false);
 					break;
 				case TEMPLATE:
 					getSite().getPage().openEditor(
-							new ResourceEditorInput(resource),
+							new ResourceEditorInput(selectedRepository, resource),
 							TemplateResourceEditor.ID, true);
 					break;
 				}
@@ -256,8 +248,9 @@ public class RepositoryExplorer extends ViewPart implements
 				Object element = getFirstSelectedElement(viewer.getSelection());
 
 				// Open editor
+				Repository repository = getSelectedRepository(viewer.getSelection());
 				OpenEditorAction openEditorAction = new OpenEditorAction(
-						RepositoryExplorer.this, element);
+						RepositoryExplorer.this, repository, element);
 				manager.add(openEditorAction);
 
 				if (element instanceof Repository) {

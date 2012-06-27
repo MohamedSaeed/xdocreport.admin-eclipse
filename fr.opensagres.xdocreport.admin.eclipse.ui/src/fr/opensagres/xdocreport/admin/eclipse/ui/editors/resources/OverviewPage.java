@@ -129,7 +129,7 @@ public class OverviewPage extends ModelToolbarFormPage<Resource> implements
 		IObservableValue resourceIdWidgetValue = SWTObservables.observeText(
 				resourceIdText, SWT.Modify);
 		IObservableValue resourceIdModelValue = PojoObservables.observeValue(
-				getModelObject(), Resource.ID_PROPERTY);
+				getModelObject(), Resource.ID_NOT_NULL_PROPERTY);
 		bindingContext.bindValue(resourceIdWidgetValue, resourceIdModelValue,
 				null, null);
 

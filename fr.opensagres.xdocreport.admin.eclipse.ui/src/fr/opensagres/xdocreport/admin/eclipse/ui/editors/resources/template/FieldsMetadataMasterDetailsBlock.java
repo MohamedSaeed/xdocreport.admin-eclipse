@@ -1,8 +1,12 @@
 package fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.template;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -24,11 +28,20 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import fr.opensagres.eclipse.forms.ModelMasterDetailsBlock;
+import fr.opensagres.xdocreport.admin.eclipse.core.Platform;
+import fr.opensagres.xdocreport.admin.eclipse.core.Repository;
+import fr.opensagres.xdocreport.admin.eclipse.ui.Activator;
+import fr.opensagres.xdocreport.admin.eclipse.ui.editors.resources.ResourceEditorInput;
 import fr.opensagres.xdocreport.admin.eclipse.ui.internal.Messages;
-import fr.opensagres.xdocreport.admin.eclipse.ui.viewers.ResourceContentProvider;
-import fr.opensagres.xdocreport.admin.eclipse.ui.viewers.ResourceLabelProvider;
+import fr.opensagres.xdocreport.admin.eclipse.ui.viewers.FieldsMetadataContentProvider;
+import fr.opensagres.xdocreport.admin.eclipse.ui.viewers.FieldsMetadataLabelProvider;
+import fr.opensagres.xdocreport.admin.eclipse.ui.viewers.FieldsMetadataTreeModel;
+import fr.opensagres.xdocreport.remoting.resources.domain.BinaryData;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
 import fr.opensagres.xdocreport.remoting.resources.domain.ResourceHelper;
+import fr.opensagres.xdocreport.remoting.resources.services.ResourcesService;
+import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
+import fr.opensagres.xdocreport.template.formatter.FieldsMetadataXMLSerializer;
 
 public class FieldsMetadataMasterDetailsBlock extends
 		ModelMasterDetailsBlock<Resource> {
@@ -88,8 +101,8 @@ public class FieldsMetadataMasterDetailsBlock extends
 				removeButton.setEnabled(true);
 			}
 		});
-		viewer.setContentProvider(ResourceContentProvider.getInstance());
-		viewer.setLabelProvider(ResourceLabelProvider.getInstance());
+		viewer.setContentProvider(FieldsMetadataContentProvider.getInstance());
+		viewer.setLabelProvider(FieldsMetadataLabelProvider.getInstance());
 	}
 
 	private void createButtons(FormToolkit toolkit, Composite parent) {
@@ -135,7 +148,6 @@ public class FieldsMetadataMasterDetailsBlock extends
 	protected void handleAddButton() {
 		Resource document = new Resource();
 		document.setName("New Document");
-		getDocuments().add(document);
 		viewer.add(document);
 		viewer.setSelection(new StructuredSelection(document));
 	}
@@ -147,8 +159,7 @@ public class FieldsMetadataMasterDetailsBlock extends
 			Resource document = null;
 			Object[] hobbies = selection.toArray();
 			for (int i = 0; i < hobbies.length; i++) {
-				document = (Resource) hobbies[i];
-				getDocuments().remove(document);
+				document = (Resource) hobbies[i];				
 				viewer.remove(document);
 			}
 			viewer.refresh();
@@ -166,14 +177,30 @@ public class FieldsMetadataMasterDetailsBlock extends
 
 		Resource fieldsMetada = ResourceHelper
 				.findFieldsMetadataFromTemplate(getModelObject());
-		
-		
-		List<Resource> hobbies = getDocuments();
-		viewer.setInput(hobbies);
-	}
 
-	private List<Resource> getDocuments() {
-		return getModelObject().getChildren();
+		Repository repository = ((ResourceEditorInput) getEditor()
+				.getEditorInput()).getRepository();
+
+		try {
+			ResourcesService resourcesService = Platform.getRepositoryManager()
+					.getResourcesService(repository);
+			BinaryData binaryData = resourcesService.download(fieldsMetada
+					.getIdNotNull());
+
+			FieldsMetadata fieldsMetadata = FieldsMetadataXMLSerializer
+					.getInstance().load(
+							new ByteArrayInputStream(binaryData.getContent()));
+
+			FieldsMetadataTreeModel treeModel = new FieldsMetadataTreeModel(
+					fieldsMetadata);
+			viewer.setInput(treeModel);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, 0,
+					"Repository connection", e);
+			ErrorDialog.openError(viewer.getControl().getShell(),
+					"RepositoryService Error", e.getMessage(), status);
+		}
 	}
 
 	public IDetailsPage getPage(Object key) {

@@ -4,6 +4,7 @@ import org.eclipse.ui.PartInitException;
 
 import fr.opensagres.eclipse.forms.editor.ModelFormEditor;
 import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
+import fr.opensagres.xdocreport.remoting.resources.domain.ResourceHelper;
 import fr.opensagres.xdocreport.remoting.resources.domain.ResourceType;
 
 public abstract class ResourceEditor<EditorInput extends ResourceEditorInput, Model extends Resource>
@@ -26,7 +27,8 @@ public abstract class ResourceEditor<EditorInput extends ResourceEditorInput, Mo
 	
 	@Override
 	protected Resource onLoad(ResourceEditorInput input) {
-		return input.getModel();
+		Resource resource = input.getModel();
+		return resource;
 	}
 	
 	public ResourceType getResourceType() {

@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * Resource Helper.
- * 
  */
 public class ResourceHelper {
 
@@ -49,13 +48,59 @@ public class ResourceHelper {
 	 */
 	public static Resource findFieldsMetadataFromMetaInf(Resource metaInf) {
 		List<Resource> resources = metaInf.getChildren();
-		String name = null;
 		for (Resource resource : resources) {
-			name = resource.getName();
-			if (name != null && name.endsWith(ResourceFactory.FIELDS_XML)) {
+			if (isFieldsMetadata(resource)) {
 				return resource;
 			}
 		}
 		return null;
+	}
+
+	public static boolean isFieldsMetadata(Resource resource) {
+		return isFieldsMetadata(resource.getName());
+	}
+
+	public static boolean isFieldsMetadata(String name) {
+		return name != null && name.endsWith(ResourceFactory.FIELDS_XML);
+	}
+
+	/**
+	 * Returns the resource path of the given resource.
+	 * 
+	 * @param resource
+	 * @return
+	 */
+	public static String getResourcePath(Resource resource) {
+		StringBuilder path = new StringBuilder();
+		computePath(resource, path);
+		return path.toString();
+	}
+
+	/**
+	 * Compute the resource path of the given resource.
+	 * 
+	 * @param resource
+	 * @param path
+	 */
+	private static void computePath(Resource resource, StringBuilder path) {
+		Resource parent = resource.getParent();
+		insertPath(resource, path);
+		while (parent != null) {
+			insertPath(parent, path);
+			parent = parent.getParent();
+		}
+	}
+
+	/**
+	 * Insert path.
+	 * 
+	 * @param resource
+	 * @param path
+	 */
+	private static void insertPath(Resource resource, StringBuilder path) {
+		if (path.length() > 0) {
+			path.insert(0, '/');
+		}
+		path.insert(0, resource.getName());
 	}
 }
