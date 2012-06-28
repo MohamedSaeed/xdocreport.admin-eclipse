@@ -17,7 +17,8 @@ Bundle-Description: XDocReport means XML Document reporting. It's Java
   API to merge XML document created with MS Office (docx) or OpenOffic
  e (odt), LibreOffice (odt) with a Java model to generate report and c
  onvert it if you need to another format (PDF, XHTML...).
-Import-Package: javax.jws,
+Import-Package: fr.opensagres.xdocreport.core,
+ javax.jws,
  javax.jws.soap;version="[2.0,3)",
  javax.ws.rs,
  javax.ws.rs.core,

@@ -9,6 +9,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -21,7 +22,8 @@ import fr.opensagres.xdocreport.remoting.resources.domain.Resource;
 
 public class FieldMetadataDetailsPage extends ModelDetailsPage<Resource> {
 
-	private Text hobbyLabelText;
+	private Text fieldNameText;
+	private Control fieldDescriptionText;
 
 	@Override
 	protected void onCreateUI(Composite parent) {
@@ -35,21 +37,21 @@ public class FieldMetadataDetailsPage extends ModelDetailsPage<Resource> {
 
 		FormToolkit toolkit = getManagedForm().getToolkit();
 
-		Section hobbyDetailSection = toolkit.createSection(parent,
+		Section fieldDetailSection = toolkit.createSection(parent,
 				Section.DESCRIPTION | Section.TITLE_BAR);
-		hobbyDetailSection.marginWidth = 10;
-		hobbyDetailSection
-				.setText(Messages.TemplateResourceEditor_DocumentsPage_DocumentDetailsPage_title); //$NON-NLS-1$
-		hobbyDetailSection
-				.setDescription(Messages.TemplateResourceEditor_DocumentsPage_DocumentDetailsPage_desc); //$NON-NLS-1$
+		fieldDetailSection.marginWidth = 10;
+		fieldDetailSection
+				.setText(Messages.TemplateResourceEditor_FieldsMetadataPage_FieldMetadataDetailsPage_title); //$NON-NLS-1$
+		fieldDetailSection
+				.setDescription(Messages.TemplateResourceEditor_FieldsMetadataPage_FieldMetadataDetailsPage_desc); //$NON-NLS-1$
 
 		TableWrapData td = new TableWrapData(TableWrapData.FILL,
 				TableWrapData.TOP);
 		td.grabHorizontal = true;
-		hobbyDetailSection.setLayoutData(td);
+		fieldDetailSection.setLayoutData(td);
 
-		Composite client = toolkit.createComposite(hobbyDetailSection);
-		hobbyDetailSection.setClient(client);
+		Composite client = toolkit.createComposite(fieldDetailSection);
+		fieldDetailSection.setClient(client);
 
 		// Create generic content
 		createBodyContent(toolkit, client);
@@ -62,21 +64,27 @@ public class FieldMetadataDetailsPage extends ModelDetailsPage<Resource> {
 		glayout.numColumns = 2;
 		parent.setLayout(glayout);
 
-		// Hobby label
+		// Field name
 		toolkit.createLabel(
 				parent,
-				Messages.TemplateResourceEditor_DocumentsPage_DocumentDetailsPage_templateName_label);
-		hobbyLabelText = toolkit.createText(parent, "", SWT.SINGLE);
-		hobbyLabelText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+				Messages.TemplateResourceEditor_FieldsMetadataPage_FieldMetadataDetailsPage_fieldName_label);
+		fieldNameText = toolkit.createText(parent, "", SWT.SINGLE);
+		fieldNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
+		// Field description
+		toolkit.createLabel(
+				parent,
+				Messages.TemplateResourceEditor_FieldsMetadataPage_FieldMetadataDetailsPage_fieldDescription_label);
+		fieldDescriptionText = toolkit.createText(parent, "", SWT.SINGLE);
+		fieldDescriptionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 	}
 
 	public void onBind(DataBindingContext bindingContext) {
 
-		// Label binding
+		// Name binding
 		IObservableValue hobbyLabelTextObserveTextObserveWidget = SWTObservables
-				.observeText(hobbyLabelText, SWT.Modify);
+				.observeText(fieldNameText, SWT.Modify);
 		IObservableValue modelHobbyLabelObserveValue = PojoObservables
 				.observeValue(getModelObject(), Resource.NAME_PROPERTY);
 		bindingContext.bindValue(hobbyLabelTextObserveTextObserveWidget,

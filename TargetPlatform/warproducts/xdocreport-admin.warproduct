@@ -17,6 +17,7 @@
       <plugin id="fr.opensagres.xdocreport.core"/>
       <plugin id="fr.opensagres.xdocreport.remoting.resources"/>
       <plugin id="fr.opensagres.xdocreport.remoting.resources.services.client"/>
+      <plugin id="fr.opensagres.xdocreport.template"/>
       <plugin id="org.apache.commons.lang"/>
       <plugin id="org.apache.cxf.bundle-minimal"/>
       <plugin id="org.apache.felix.gogo.command"/>
@@ -92,6 +93,7 @@
       <plugin id="fr.opensagres.xdocreport.core" autoStart="true" startLevel="0" />
       <plugin id="fr.opensagres.xdocreport.remoting.resources" autoStart="true" startLevel="0" />
       <plugin id="fr.opensagres.xdocreport.remoting.resources.services.client" autoStart="true" startLevel="0" />
+      <plugin id="fr.opensagres.xdocreport.template" autoStart="true" startLevel="0" />
       <plugin id="org.apache.commons.lang" autoStart="true" startLevel="0" />
       <plugin id="org.apache.cxf.bundle-minimal" autoStart="true" startLevel="0" />
       <plugin id="org.apache.felix.gogo.command" autoStart="true" startLevel="0" />

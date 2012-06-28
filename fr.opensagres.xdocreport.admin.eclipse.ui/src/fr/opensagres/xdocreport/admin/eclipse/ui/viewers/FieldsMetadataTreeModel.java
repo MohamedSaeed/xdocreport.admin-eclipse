@@ -33,16 +33,16 @@ public class FieldsMetadataTreeModel extends FieldMetadataTreeNodeModel {
 					parent = super.getNode(path);
 					if (parent == null) {
 						parent = new FieldMetadataTreeNodeModel(path, this);
-						super.addNode(name, parent);
+						super.addNode(path, parent);
 					}
 				} else if (i == paths.length - 1) {
 					node = new FieldMetadataTreeNodeModel(path, parent, field);
-					parent.addNode(name, node);
+					parent.addNode(path, node);
 				} else {
 					node = parent.getNode(path);
 					if (node == null) {
 						node = new FieldMetadataTreeNodeModel(path, this);
-						parent.addNode(name, node);
+						parent.addNode(path, node);
 					}
 					parent = node;
 				}

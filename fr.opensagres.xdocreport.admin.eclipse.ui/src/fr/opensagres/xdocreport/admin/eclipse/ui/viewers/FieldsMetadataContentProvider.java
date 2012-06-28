@@ -1,6 +1,5 @@
 package fr.opensagres.xdocreport.admin.eclipse.ui.viewers;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
