@@ -192,10 +192,8 @@ public class JAXRSResourcesServiceWebClientTestCase
 
         // Test if download with the resourceId returns a non null binary data.
         StringBuilder path = new StringBuilder( ResourcesServiceName.download.name() );
-        path.append( "/" );
-        path.append( resourceId );
         byte[] downloadedDocument =
-            client.path( path.toString() ).accept( MediaType.APPLICATION_JSON_TYPE ).get( byte[].class );
+            client.path( path.toString() ).query("resourceId", resourceId).accept( MediaType.APPLICATION_JSON_TYPE ).get( byte[].class );
         Assert.assertNotNull( downloadedDocument );
     }
 
