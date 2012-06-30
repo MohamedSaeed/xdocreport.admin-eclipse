@@ -1,16 +1,8 @@
 Manifest-Version: 1.0
-Export-Package: fr.opensagres.xdocreport.remoting.resources.domain;use
- s:="javax.xml.bind.annotation,javax.xml.bind,javax.xml.namespace",fr.
- opensagres.xdocreport.remoting.resources.services;uses:="fr.opensagre
- s.xdocreport.remoting.resources.domain,fr.opensagres.xdocreport.remot
- ing.resources.services.jaxrs",fr.opensagres.xdocreport.remoting.resou
- rces.services.jaxrs;uses:="javax.ws.rs,fr.opensagres.xdocreport.remot
- ing.resources.services,fr.opensagres.xdocreport.remoting.resources.do
- main,javax.ws.rs.ext,javax.ws.rs.core",fr.opensagres.xdocreport.remot
- ing.resources.services.jaxws;uses:="javax.jws.soap,javax.jws,javax.xm
- l.bind.annotation,fr.opensagres.xdocreport.remoting.resources.service
- s,fr.opensagres.xdocreport.remoting.resources.domain,javax.xml.ws,jav
- ax.xml.namespace"
+Export-Package: fr.opensagres.xdocreport.remoting.resources.domain,
+ fr.opensagres.xdocreport.remoting.resources.services,
+ fr.opensagres.xdocreport.remoting.resources.services.jaxrs,
+ fr.opensagres.xdocreport.remoting.resources.services.jaxws
 Built-By: azerr
 Tool: Bnd-1.15.0
 Bundle-Name: fr.opensagres.xdocreport.remoting.resources
@@ -25,10 +17,14 @@ Bundle-Description: XDocReport means XML Document reporting. It's Java
   API to merge XML document created with MS Office (docx) or OpenOffic
  e (odt), LibreOffice (odt) with a Java model to generate report and c
  onvert it if you need to another format (PDF, XHTML...).
-Import-Package: javax.jws;version="[2.0,3)",javax.jws.soap;version="[2
- .0,3)",javax.ws.rs;version="[1.1,2)",javax.ws.rs.core;version="[1.1,2
- )",javax.ws.rs.ext;version="[1.1,2)",javax.xml.bind;version="[2.1,3)"
- ,javax.xml.bind.annotation;version="[2.1,3)",javax.xml.namespace,java
- x.xml.ws;version="[2.1,3)"
+Import-Package: javax.jws,
+ javax.jws.soap,
+ javax.ws.rs,
+ javax.ws.rs.core,
+ javax.ws.rs.ext,
+ javax.xml.bind,
+ javax.xml.bind.annotation,
+ javax.xml.namespace,
+ javax.xml.ws
 Bundle-SymbolicName: fr.opensagres.xdocreport.remoting.resources
 
