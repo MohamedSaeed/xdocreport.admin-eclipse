@@ -4,8 +4,8 @@
 <target name="Base RCP (Binary Only)" sequenceNumber="12">
 <locations>
 <location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.rap.runtime.requirements.feature.group" version="1.5.0.20120605-1619"/>
-<unit id="org.eclipse.rap.runtime.feature.group" version="1.5.0.20120605-1619"/>
+<unit id="org.eclipse.rap.runtime.requirements.feature.group" version="1.5.0.20120612-1510"/>
+<unit id="org.eclipse.rap.runtime.feature.group" version="1.5.0.20120612-1510"/>
 <repository location="http://download.eclipse.org/rt/rap/1.5/runtime"/>
 </location>
 <location path="${project_loc}/lib" type="Directory"/>
